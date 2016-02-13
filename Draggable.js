@@ -7,6 +7,7 @@ import React,{
     Animated,
     Dimensions
 } from 'react-native';
+const CLICK_THRESHOLD = 10;
 
 
 export default class Draggable extends Component {
@@ -24,6 +25,10 @@ export default class Draggable extends Component {
               dy : this.state.pan.y
           }]),
           onPanResponderRelease        : (e, gesture) => {
+          	  if (Math.abs(gesture.dx) < CLICK_THRESHOLD && Math.abs(gesture.dy) < CLICK_THRESHOLD) {
+          	  	return this.props.onClick();
+          	  }
+
 			  let cmp = this.props.findDropZone(gesture);
               if (cmp) {
               	this.props.onDropped(cmp);
@@ -52,6 +57,7 @@ export default class Draggable extends Component {
 Draggable.PropTypes = {
 	findDropZone: React.PropTypes.func,
 	onDropped: React.PropTypes.func,
+	onClick: React.PropTypes.func,
 	showDraggable: React.PropTypes.bool,
     children: React.PropTypes.element.isRequired
 };
@@ -59,7 +65,8 @@ Draggable.PropTypes = {
 Draggable.defaultProps = {
 	showDraggable: true,
 	dropped: () => true,
-	findDropZone: () => false
+	findDropZone: () => false,
+	onClick: () => true
 };
 
 let CIRCLE_RADIUS = 50;

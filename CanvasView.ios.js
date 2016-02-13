@@ -26,6 +26,11 @@ var CanvasView = React.createClass({
   handleDropped() {
     console.log('dropped on my', arguments);
   },
+  gotoAddView() {
+    this.props.navigator.push({
+      component: AddComponent,
+    });
+  },
   render() {
     function findDropZone(gesture) {
       if (this.refs.drop1.isDropZone(gesture)) {
@@ -40,12 +45,12 @@ var CanvasView = React.createClass({
     return (
       <View style={styles.container}>
         <Droppable ref="drop1">
-          <View>
-            <Text>WHAT IS UP</Text>
-          </View>
+            <View>
+              <Text>WHAT IS UP</Text>
+            </View>
         </Droppable>
 
-        <Draggable findDropZone={findDropZone.bind(this)} onDropped={this.handleDropped}>
+        <Draggable onClick={this.gotoAddView} findDropZone={findDropZone.bind(this)} onDropped={this.handleDropped}>
             <Icon name="dot-circle-o" size={70} color="#900" />
         </Draggable>
 
@@ -53,13 +58,6 @@ var CanvasView = React.createClass({
       </View>
     );
   },
-
-  gotoAddView() {
-    this.props.navigator.push({
-      component: AddComponent,
-    });
-
-  }
 });
 
 const styles = StyleSheet.create({
