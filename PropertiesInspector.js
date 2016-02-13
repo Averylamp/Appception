@@ -29,7 +29,6 @@ const {
   updatePosition
 } = DropDown;
 
-var Slider = require('react-native-slider');
 
 var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
 
