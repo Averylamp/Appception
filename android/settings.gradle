@@ -1,0 +1,3 @@
+rootProject.name = 'Appception'
+
+include ':app'
