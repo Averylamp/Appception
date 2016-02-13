@@ -21,7 +21,6 @@ import Stateful from './state';
 import {testAction} from './actions';
 
 var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
-var vcOptioins = ['VC 1','VC 2','VC 3']
 
 var AddComponent = React.createClass({
 
@@ -30,6 +29,7 @@ var AddComponent = React.createClass({
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
       dataSource: ds.cloneWithRows(objects),
+      vcOptions: ['View 1','View 2'],
     };
     console.log(this.props);
   },
@@ -40,9 +40,12 @@ var AddComponent = React.createClass({
   },
   _addSegment: function () {
     console.log("here");
-    var newE = "VC "+  vcOptioins.length;
-    vcOptioins.push(newE);
-    console.log(vcOptioins);
+    var newE = "View "+ (this.state.vcOptions.length + 1);
+    this.state.vcOptions.push(newE);
+    this.setState({
+      vcOptions: this.state.vcOptions,
+    })
+    console.log(this.state.vcOptions);
   },
   handlePress(rowData, e) {
     this.props.dispatch(testAction(rowData));
@@ -65,14 +68,14 @@ var AddComponent = React.createClass({
       <View style={styles.topBarContainer}>
         <View style={{flex:5}}>
           <SegmentedControls
-          options={ vcOptioins }
+          options={ this.state.vcOptions }
           onSelection={ setSelectedOption.bind(this) }
           selectedOption={ this.state.selectedOption }
           style={styles.segmentedControls}
         >
         </SegmentedControls>
         </View>
-        <TouchableHighlight style={styles.addSegmentButton} onPress={() => this._addSegment}><Text style={{fontSize:20, backgroundColor:'#77c588',marginRight:10,marginTop:3,color:'white',}}> Add </Text></TouchableHighlight>
+        <TouchableHighlight style={styles.addSegmentButton} onPress={() => this._addSegment()}><Text style={{fontSize:20, backgroundColor:'#77c588',marginRight:10,marginTop:3,color:'white',}}> Add </Text></TouchableHighlight>
       </View>
 
 
