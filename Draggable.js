@@ -1,0 +1,84 @@
+import React,{
+    Component,
+    StyleSheet,
+    View,
+    Text,
+    PanResponder,
+    Animated,
+    Dimensions
+} from 'react-native';
+
+
+export default class Draggable extends Component {
+  constructor(props) {
+      super(props);
+
+      this.state = {
+          pan             : new Animated.ValueXY(),
+      };
+
+      this.panResponder = PanResponder.create({
+          onStartShouldSetPanResponder : () => true,
+          onPanResponderMove           : Animated.event([null,{
+              dx : this.state.pan.x,
+              dy : this.state.pan.y
+          }]),
+          onPanResponderRelease        : (e, gesture) => {
+			  let cmp = this.props.findDropZone(gesture);
+              if (cmp) {
+              	this.props.onDropped(cmp);
+              } else {
+                  Animated.spring(
+                      this.state.pan,
+                      {toValue:{x:0,y:0}}
+                  ).start();
+              }
+          }
+      });
+  }
+  render() {
+    if (!this.props.showDraggable) return;
+    return (
+        <View style={styles.draggableContainer}>
+            <Animated.View 
+                {...this.panResponder.panHandlers}
+                style={[this.state.pan.getLayout(), styles.circle]}>
+                {this.props.children}
+            </Animated.View>
+        </View>
+    );
+  }
+};
+Draggable.PropTypes = {
+	findDropZone: React.PropTypes.func,
+	onDropped: React.PropTypes.func,
+	showDraggable: React.PropTypes.bool,
+    children: React.PropTypes.element.isRequired
+};
+
+Draggable.defaultProps = {
+	showDraggable: true,
+	dropped: () => true,
+	findDropZone: () => false
+};
+
+let CIRCLE_RADIUS = 50;
+let Window = Dimensions.get('window');
+
+let styles = StyleSheet.create({
+    text        : {
+        marginTop   : 25,
+        marginLeft  : 5,
+        marginRight : 5,
+        textAlign   : 'center',
+        color       : '#fff'
+    },
+    draggableContainer: {
+        position    : 'absolute',
+        top         : Window.height/2 - CIRCLE_RADIUS,
+        left        : Window.width/2 - CIRCLE_RADIUS,
+    },
+    circle      : {
+	    backgroundColor     : 'transparent',
+    }
+});

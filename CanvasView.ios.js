@@ -16,21 +16,40 @@ import React, {
 import { RadioButtons } from 'react-native-radio-buttons';
 var Icon = require('react-native-vector-icons/FontAwesome');
 var AddComponent = require('./AddComponent.ios.js');
-import Viewport from './Viewport';
 
-  // <TouchableHighlight style={styles.magicButton} onPress={()=>this.gotoAddView()}>
-  //   <Icon name="dot-circle-o" size={70} color="#900" />
-  // </TouchableHighlight>
+import Draggable from './Draggable';
+import Droppable from './Droppable';
 
 
 
 var CanvasView = React.createClass({
-
+  handleDropped() {
+    console.log('dropped on my', arguments);
+  },
   render() {
+    function findDropZone(gesture) {
+      if (this.refs.drop1.isDropZone(gesture)) {
+        return this.refs.drop1;
+      } else {
+        return false;
+      }
+    }
+
+
+
     return (
       <View style={styles.container}>
+        <Droppable ref="drop1">
+          <View>
+            <Text>WHAT IS UP</Text>
+          </View>
+        </Droppable>
 
-        <Viewport />
+        <Draggable findDropZone={findDropZone.bind(this)} onDropped={this.handleDropped}>
+            <Icon name="dot-circle-o" size={70} color="#900" />
+        </Draggable>
+
+
       </View>
     );
   },
@@ -51,13 +70,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-
-  magicButton: {
-    position:'absolute',
-    right: 50,
-    bottom: 50
-  }
-
 });
 
 //AppRegistry.registerComponent('AddComponent', () => AddComponent);
