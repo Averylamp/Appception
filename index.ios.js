@@ -14,7 +14,10 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 
+import { SegmentedControls } from 'react-native-radio-buttons'
+
 var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
+var vcOptioins = ['VC 1','VC 2','VC 3']
 
 var Appception = React.createClass({
 
@@ -26,13 +29,47 @@ var Appception = React.createClass({
       };
   },
 
+  _testButton: function (arg) {
+    console.log(arg);
+
+  },
+  _addSegment: function () {
+    console.log("here");
+    var newE = "VC "+  vcOptioins.length;
+    vcOptioins.push(newE);
+    console.log(vcOptioins);
+
+  },
 
   render() {
+
+    function setSelectedOption(selectedOption){
+        this.setState({
+          selectedOption
+        });
+      };
+
     return (
-           <ListView style={styles.listViewStyle}
+      <View>
+
+      <View style={styles.topBarContainer}>
+        <View style={{flex:5}}>
+          <SegmentedControls
+          options={ vcOptioins }
+          onSelection={ setSelectedOption.bind(this) }
+          selectedOption={ this.state.selectedOption }
+          style={styles.segmentedControls}
+        >
+        </SegmentedControls>
+        </View>
+        <TouchableHighlight style={styles.addSegmentButton} onPress={() => this._addSegment}><Text style={{fontSize:20, backgroundColor:'#77c588',marginRight:10,marginTop:3,color:'white',}}> Add </Text></TouchableHighlight>
+      </View>
+
+       <ListView style={styles.listViewStyle}
       dataSource={this.state.dataSource}
-      renderRow={(rowData) => <TouchableHighlight  style={styles.buttonStyle}><Text style={styles.buttonTextStyle}>{rowData}</Text></TouchableHighlight>}
+      renderRow={(rowData) => <TouchableHighlight  style={styles.buttonStyle} onPress={() => this._testButton(rowData) }><Text style={styles.buttonTextStyle}>{rowData}</Text></TouchableHighlight>}
     />
+    </View>
     );
   }
 });
@@ -46,10 +83,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   listViewStyle: {
-    borderTopWidth: 50
   },
   buttonStyle: {
-
     height:70,
     backgroundColor:'#2196f3',
     borderWidth: 10,
@@ -70,6 +105,37 @@ const styles = StyleSheet.create({
     marginTop:17,
     fontFamily:'Geeza Pro',
     color:'white'
+  },
+  vcButtonStyle: {
+    backgroundColor:'blue',
+    height: 100,
+    flexDirection:'row',
+    borderRadius: 20,
+    flex: 0.3,
+  },
+  vcTextStyle:{
+
+  },
+
+  topBarContainer: {
+    marginTop: 40,
+    marginLeft: 10,
+    flex:1,
+    flexDirection: 'row'
+  },
+
+  segmentedControls: {
+    flex:1,
+    //height:40,
+    flexDirection:'row',
+    //alignItems:'center',
+    //flex: 4,
+    },
+  addSegmentButton: {
+    flex:1,
+
+    //flexDirection:'row',
+    alignItems:"flex-end",
   }
 });
 
