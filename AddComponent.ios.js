@@ -13,7 +13,8 @@ import React, {
 } from 'react-native';
 
 
-import { SegmentedControls } from 'react-native-radio-buttons'
+import { SegmentedControls } from 'react-native-radio-buttons';
+import {connect} from 'react-redux';
 let AdaptedText = AppceptionAdapter(Text);
 import AppceptionAdapter from './AppceptionAdapter';
 
@@ -48,7 +49,7 @@ var AddComponent = React.createClass({
     console.log(this.state.vcOptions);
   },
   handlePress(rowData, e) {
-    this.props.dispatch(testAction(rowData));
+    this.props.dispatch(testAction("thingus", rowData));
   },
   handleComponentChange(key, val) {
     this.props.dispatch(testAction(key, val));
@@ -65,34 +66,35 @@ var AddComponent = React.createClass({
     return (
       <View>
 
-      <View style={styles.topBarContainer}>
-        <View style={{flex:5}}>
-          <SegmentedControls
-          options={ this.state.vcOptions }
-          onSelection={ setSelectedOption.bind(this) }
-          selectedOption={ this.state.selectedOption }
-          style={styles.segmentedControls}
-        >
-        </SegmentedControls>
-        </View>
-        <TouchableHighlight style={styles.addSegmentButton} onPress={() => this._addSegment()}><Text style={{fontSize:20, backgroundColor:'#77c588',marginRight:10,marginTop:3,color:'white',}}> Add </Text></TouchableHighlight>
-      </View>
+          <View style={styles.topBarContainer}>
+            <View style={{flex:5}}>
+              <SegmentedControls
+              options={ this.state.vcOptions }
+              onSelection={ setSelectedOption.bind(this) }
+              selectedOption={ this.state.selectedOption }
+              style={styles.segmentedControls}
+            >
+            </SegmentedControls>
+            </View>
+            <TouchableHighlight style={styles.addSegmentButton} onPress={() => this._addSegment()}><Text style={{fontSize:20, backgroundColor:'#77c588',marginRight:10,marginTop:3,color:'white',}}> Add </Text></TouchableHighlight>
+          </View>
 
 
-         <ListView style={styles.listViewStyle}
-        dataSource={this.state.dataSource}
-        renderRow={(rowData) => <TouchableHighlight onPress={this.handlePress.bind(this, rowData)}style={styles.buttonStyle}><AdaptedText style={styles.buttonTextStyle}>{rowData}</AdaptedText></TouchableHighlight>}
-        />
-        <Text>{this.props.thingus}</Text>
+          <ListView style={styles.listViewStyle}
+          dataSource={this.state.dataSource}
+          renderRow={(rowData) => <TouchableHighlight onPress={this.handlePress.bind(this, rowData)}style={styles.buttonStyle}><AdaptedText style={styles.buttonTextStyle}>{rowData}</AdaptedText></TouchableHighlight>}
+          />
+          <Text>{this.props.thingus}</Text>
 
-       <Text style={{color: this.props.color}}>
-        Input a hex color for me: {this.props.color}
-       </Text>
-        <TextInput
-          value={this.props.color}
-          onChangeText={this.handleComponentChange.bind(this, 'color')}
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-       />
+          <Text style={{color: this.props.color}}>
+          Input a hex color for me: {this.props.color}
+          </Text>
+          <TextInput
+            value={this.props.color}
+            onChangeText={this.handleComponentChange.bind(this, 'color')}
+            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+         />
+
       </View>
 
     );
@@ -165,4 +167,8 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = Stateful(AddComponent);
+function select(x) {
+  return x;
+}
+
+module.exports = connect(select)(AddComponent);
