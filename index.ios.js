@@ -1,7 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 import React, {
   AppRegistry,
@@ -11,30 +7,38 @@ import React, {
   Text,
   View,
   ListView,
-  TouchableHighlight
+  TouchableHighlight,
+  Navigator
 } from 'react-native';
 
-var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
+var AddComponent = require('./AddComponent.ios.js');
+var CanvasView = require('./CanvasView.ios.js');
 
 var Appception = React.createClass({
 
-
-    getInitialState: function() {
-      var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      return {
-        dataSource: ds.cloneWithRows(objects),
-      };
-  },
-
-
   render() {
     return (
-           <ListView style={styles.listViewStyle}
-      dataSource={this.state.dataSource}
-      renderRow={(rowData) => <TouchableHighlight  style={styles.buttonStyle}><Text style={styles.buttonTextStyle}>{rowData}</Text></TouchableHighlight>}
-    />
+      <Navigator
+        ref={(navigator) => {this.navigator = navigator;}}
+        initialRoute={{name: 'Main', index: 0, component: CanvasView}}
+        renderScene={this.renderScene}
+      />
+    );
+  },
+
+  renderScene: function(route, navigator) {
+    var Component = route.component;
+    return (
+      <Component
+        route={route}
+        {...route.passProps}
+        //name={route.name}
+        navigator={navigator}
+        topNavigator={navigator}
+      />
     );
   }
+
 });
 
 const styles = StyleSheet.create({
@@ -44,32 +48,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  listViewStyle: {
-    borderTopWidth: 50
-  },
-  buttonStyle: {
-
-    height:70,
-    backgroundColor:'#2196f3',
-    borderWidth: 10,
-    borderTopWidth:5,
-    borderBottomWidth:5,
-    borderRadius: 6,
-    shadowOffset:{
-      height:1,
-      width:1
-    },
-    borderRadius:15,
-    borderColor: 'white',
-    alignItems: 'center',
-  },
-  buttonTextStyle: {
-    fontSize: 18,
-    backgroundColor:'transparent',
-    marginTop:17,
-    fontFamily:'Geeza Pro',
-    color:'white'
   }
 });
 
