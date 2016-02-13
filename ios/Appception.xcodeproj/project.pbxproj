@@ -30,6 +30,7 @@
 		AD38D5511C6F68C3008DC66E /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD38D5491C6F68C3008DC66E /* MaterialIcons.ttf */; };
 		AD38D5521C6F68C3008DC66E /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD38D54A1C6F68C3008DC66E /* Octicons.ttf */; };
 		AD38D5531C6F68C3008DC66E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD38D54B1C6F68C3008DC66E /* Zocial.ttf */; };
+		AD38D5671C6F84BD008DC66E /* libRNMotionManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD38D5641C6F84AA008DC66E /* libRNMotionManager.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,20 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		AD38D5631C6F84AA008DC66E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD38D55E1C6F84AA008DC66E /* RNMotionManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BB9CC7ED1AE0A2EB008A1D08;
+			remoteInfo = RNMotionManager;
+		};
+		AD38D5651C6F84AA008DC66E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD38D55E1C6F84AA008DC66E /* RNMotionManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BB9CC7F81AE0A2EB008A1D08;
+			remoteInfo = RNMotionManagerTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -142,6 +157,7 @@
 		AD38D5491C6F68C3008DC66E /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		AD38D54A1C6F68C3008DC66E /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		AD38D54B1C6F68C3008DC66E /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		AD38D55E1C6F84AA008DC66E /* RNMotionManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMotionManager.xcodeproj; path = "../node_modules/react-native-motion-manager/RNMotionManager.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD38D5671C6F84BD008DC66E /* libRNMotionManager.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -278,6 +295,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AD38D55E1C6F84AA008DC66E /* RNMotionManager.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -336,6 +354,15 @@
 			);
 			name = Fonts;
 			path = "../node_modules/react-native-vector-icons/Fonts";
+			sourceTree = "<group>";
+		};
+		AD38D55F1C6F84AA008DC66E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD38D5641C6F84AA008DC66E /* libRNMotionManager.a */,
+				AD38D5661C6F84AA008DC66E /* RNMotionManagerTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -444,6 +471,10 @@
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
+				{
+					ProductGroup = AD38D55F1C6F84AA008DC66E /* Products */;
+					ProjectRef = AD38D55E1C6F84AA008DC66E /* RNMotionManager.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -522,6 +553,20 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD38D5641C6F84AA008DC66E /* libRNMotionManager.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNMotionManager.a;
+			remoteRef = AD38D5631C6F84AA008DC66E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD38D5661C6F84AA008DC66E /* RNMotionManagerTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RNMotionManagerTests.xctest;
+			remoteRef = AD38D5651C6F84AA008DC66E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
