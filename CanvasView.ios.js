@@ -13,9 +13,15 @@ import React, {
   ListView,
   TouchableHighlight
 } from 'react-native';
-import { RadioButtons } from 'react-native-radio-buttons'
+import { RadioButtons } from 'react-native-radio-buttons';
 var Icon = require('react-native-vector-icons/FontAwesome');
 var AddComponent = require('./AddComponent.ios.js');
+import Viewport from './Viewport';
+
+  // <TouchableHighlight style={styles.magicButton} onPress={()=>this.gotoAddView()}>
+  //   <Icon name="dot-circle-o" size={70} color="#900" />
+  // </TouchableHighlight>
+
 
 
 var CanvasView = React.createClass({
@@ -23,9 +29,8 @@ var CanvasView = React.createClass({
   render() {
     return (
       <View style={styles.container}>
-        <TouchableHighlight style={styles.magicButton} onPress={()=>this.gotoAddView()}>
-          <Icon name="dot-circle-o" size={70} color="#900" />
-        </TouchableHighlight>
+
+        <Viewport />
       </View>
     );
   },
