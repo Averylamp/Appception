@@ -13,29 +13,57 @@ import React, {
   ListView,
   TouchableHighlight
 } from 'react-native';
-import { RadioButtons } from 'react-native-radio-buttons'
+import { RadioButtons } from 'react-native-radio-buttons';
 var Icon = require('react-native-vector-icons/FontAwesome');
 var AddComponent = require('./AddComponent.ios.js');
 
+import Draggable from './Draggable';
+import Droppable from './Droppable';
+import {connect} from 'react-redux';
+
+import ComponentMap from './ComponentMap';
+
 
 var CanvasView = React.createClass({
+  handleDropped() {
+    console.log('dropped on my', arguments);
+  },
+  gotoAddView() {
+    this.props.navigator.push({
+      component: AddComponent
+    });
+  },
 
+  renderComponents() {
+    let children = this.props.components.map(function(x, i) {
+      let Component = ComponentMap[x.componentType];
+      if (x.componentType === 'LABEL') {
+        return (<Component {...x.props} key={i}>WHAT UP</Component>);
+      }
+
+      return (<Component {...x.props} key={i}/>);
+    });
+
+    return children;
+  },
   render() {
+    function findDropZone(gesture) {
+      if (this.refs.drop1.isDropZone(gesture)) {
+        return this.refs.drop1;
+      } else {
+        return false;
+      }
+    }
+
     return (
       <View style={styles.container}>
-        <TouchableHighlight style={styles.magicButton} onPress={()=>this.gotoAddView()}>
-          <Icon name="dot-circle-o" size={70} color="#900" />
-        </TouchableHighlight>
+        {this.renderComponents()}
+        <Draggable onClick={this.gotoAddView} findDropZone={findDropZone.bind(this)} onDropped={this.handleDropped}>
+            <Icon name="dot-circle-o" size={70} color="#900" />
+        </Draggable>
       </View>
     );
   },
-
-  gotoAddView() {
-    this.props.navigator.push({
-      component: AddComponent,
-    });
-
-  }
 });
 
 const styles = StyleSheet.create({
@@ -46,14 +74,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-
-  magicButton: {
-    position:'absolute',
-    right: 50,
-    bottom: 50
-  }
-
 });
 
-//AppRegistry.registerComponent('AddComponent', () => AddComponent);
-module.exports = CanvasView;
+function select(state) {
+  return {components: state.components};
+}
+
+module.exports = connect(select)(CanvasView);

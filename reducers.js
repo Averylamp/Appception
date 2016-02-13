@@ -1,13 +1,23 @@
-import {TEST_ACTION} from './actions';
+import {TEST_ACTION, CREATE_COMPONENT} from './actions';
 import _ from 'lodash';
 
-export default function testReducer(state, action) {
-	state = _.clone(state);
+export function thingus(state, action) {
 	switch (action.type) {
 		case TEST_ACTION:
-			state[action.key] = action.value;
+			return action.value;
+		default:
+			return "hey";
+	}
+}
+
+export function components(state, action) {
+	state = _.clone(state) || [];
+	switch(action.type) {
+		case CREATE_COMPONENT:
+			state.push({componentType: action.componentType});
 			return state;
 		default:
-			return {thingus: "hey"};
+			return state;
 	}
+
 }
