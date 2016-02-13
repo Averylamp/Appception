@@ -75,8 +75,8 @@ let styles = StyleSheet.create({
     },
     draggableContainer: {
         position    : 'absolute',
-        top         : Window.height/2 - CIRCLE_RADIUS,
-        left        : Window.width/2 - CIRCLE_RADIUS,
+        top         : Window.height - CIRCLE_RADIUS * 2,
+        left        : Window.width - CIRCLE_RADIUS * 2,
     },
     circle      : {
 	    backgroundColor     : 'transparent',
