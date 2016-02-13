@@ -25,8 +25,11 @@ import ComponentMap from './ComponentMap';
 
 
 var CanvasView = React.createClass({
-  handleDropped() {
-    console.log('dropped on my', arguments);
+  componentDidMount() {
+    this.dropzones = [];
+  },
+  handleDropped(droppable) {
+    console.log(droppable.props.children);
   },
   gotoAddView() {
     this.props.navigator.push({
@@ -35,29 +38,41 @@ var CanvasView = React.createClass({
   },
 
   renderComponents() {
+    this.dropzones = [];
+    let _this = this;
     let children = this.props.components.map(function(x, i) {
       let Component = ComponentMap[x.componentType];
       if (x.componentType === 'LABEL') {
-        return (<Component {...x.props} key={i}>WHAT UP</Component>);
+        return (
+          <Droppable key={i} ref={'cmp_' + i}>
+            <Component {...x.props} >WHAT UP</Component>
+          </Droppable>
+        );
       }
 
       return (<Component {...x.props} key={i}/>);
+
     });
 
     return children;
   },
   render() {
+    let children = this.renderComponents();
+
+
     function findDropZone(gesture) {
-      if (this.refs.drop1.isDropZone(gesture)) {
-        return this.refs.drop1;
-      } else {
-        return false;
+      for(var i = 0; i < children.length; i++) {
+        let dropzone = this.refs['cmp_' + i];
+        if (dropzone.isDropZone(gesture)) {
+          return dropzone;
+        }
       }
+      return false;
     }
 
     return (
       <View style={styles.container}>
-        {this.renderComponents()}
+        {children}
         <Draggable onClick={this.gotoAddView} findDropZone={findDropZone.bind(this)} onDropped={this.handleDropped}>
             <Icon name="dot-circle-o" size={70} color="#900" />
         </Draggable>

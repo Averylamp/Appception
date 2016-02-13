@@ -30,17 +30,18 @@ export default class Draggable extends Component {
           	  }
 
 			  let cmp = this.props.findDropZone(gesture);
-              if (cmp) {
-              	this.props.onDropped(cmp);
-              } else {
-                  Animated.spring(
-                      this.state.pan,
-                      {toValue:{x:0, y:0}}
-                  ).start();
-              }
+            if (cmp) {
+            	this.props.onDropped(cmp);
+            } else {
+                Animated.spring(
+                    this.state.pan,
+                    {toValue:{x:0, y:0}}
+                ).start();
+            }
           }
       });
   }
+
   render() {
     if (!this.props.showDraggable) return;
     return (
@@ -53,13 +54,14 @@ export default class Draggable extends Component {
         </View>
     );
   }
+
 };
 Draggable.PropTypes = {
 	findDropZone: React.PropTypes.func,
 	onDropped: React.PropTypes.func,
 	onClick: React.PropTypes.func,
 	showDraggable: React.PropTypes.bool,
-    children: React.PropTypes.element.isRequired
+  children: React.PropTypes.element.isRequired
 };
 
 Draggable.defaultProps = {

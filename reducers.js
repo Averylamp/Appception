@@ -11,7 +11,7 @@ export function thingus(state, action) {
 }
 
 export function components(state, action) {
-	state = _.clone(state) || [];
+	state = _.clone(state) || [{componentType: "LABEL"}];
 	switch(action.type) {
 		case CREATE_COMPONENT:
 			state.push({componentType: action.componentType});

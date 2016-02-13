@@ -13,11 +13,11 @@ export default class Droppable extends Component {
       };
   }
   isDropZone(gesture) {
-      var dz = this.state.dropZoneValues;
-      // TODO: only works heightwise (for now)
-      let inHeight = (gesture.moveY > dz.y && gesture.moveY < dz.y + dz.height);
-      let inWidth = (gesture.moveX > dz.x && gesture.moveX < dz.x + dz.width);
-      return inWidth && inHeight;
+    var dz = this.state.dropZoneValues;
+    // TODO: only works heightwise (for now)
+    let inHeight = (gesture.moveY > dz.y && gesture.moveY < dz.y + dz.height);
+    let inWidth = (gesture.moveX > dz.x && gesture.moveX < dz.x + dz.width);
+    return inWidth && inHeight;
   }
   render() {
     return (
@@ -28,6 +28,9 @@ export default class Droppable extends Component {
           {this.props.children}
         </View>
     );
+  }
+  getChild() {
+    return this.props.children;
   }
 
   setDropZoneValues(event) {
