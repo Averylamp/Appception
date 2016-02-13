@@ -14,25 +14,37 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 
+let AdaptedText = AppceptionAdapter(Text);
+
+import AppceptionAdapter from './AppceptionAdapter';
+import Stateful from './state';
+import {testAction} from './actions';
+
 var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
 
 var Appception = React.createClass({
 
 
-    getInitialState: function() {
-      var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      return {
-        dataSource: ds.cloneWithRows(objects),
-      };
+  getInitialState: function() {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    return {
+      dataSource: ds.cloneWithRows(objects),
+    };
   },
 
+  handlePress(rowData, e) {
+    this.props.dispatch(testAction(rowData));
+  },
 
   render() {
     return (
-           <ListView style={styles.listViewStyle}
-      dataSource={this.state.dataSource}
-      renderRow={(rowData) => <TouchableHighlight  style={styles.buttonStyle}><Text style={styles.buttonTextStyle}>{rowData}</Text></TouchableHighlight>}
-    />
+      <View>
+         <ListView style={styles.listViewStyle}
+        dataSource={this.state.dataSource}
+        renderRow={(rowData) => <TouchableHighlight onPress={this.handlePress.bind(this, rowData)}style={styles.buttonStyle}><AdaptedText style={styles.buttonTextStyle}>{rowData}</AdaptedText></TouchableHighlight>}
+        />
+        <Text>{this.props.thingus}</Text>
+      </View>
     );
   }
 });
@@ -73,4 +85,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('Appception', () => Appception);
+AppRegistry.registerComponent('Appception', () => Stateful(Appception));
