@@ -5,6 +5,7 @@ import React, {
   StyleSheet,
   Image,
   Text,
+  TextInput,
   View,
   ListView,
   TouchableHighlight,
@@ -13,6 +14,8 @@ import React, {
 
 var AddComponent = require('./AddComponent.ios.js');
 var CanvasView = require('./CanvasView.ios.js');
+import Stateful from './state';
+import {testAction} from './actions';
 
 var Appception = React.createClass({
 
@@ -51,4 +54,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('Appception', () => Appception);
+AppRegistry.registerComponent('Appception', () => Stateful(Appception));

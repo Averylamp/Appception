@@ -2,6 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Entypo.tff</string>
+		<string>Evillcons.tff</string>
+		<string>FontAwesome.tff</string>
+		<string>Foundation.tff</string>
+		<string>Ionicons.tff</string>
+		<string>MaterialIcons.tff</string>
+		<string>Octicons.tff</string>
+		<string>Zocial.tff</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
