@@ -9,6 +9,7 @@ import React, {
   StyleSheet,
   Image,
   Text,
+  TextInput,
   View,
   ListView,
   TouchableHighlight
@@ -17,6 +18,8 @@ import React, {
 let AdaptedText = AppceptionAdapter(Text);
 
 import AppceptionAdapter from './AppceptionAdapter';
+import EditView from './EditView';
+
 import Stateful from './state';
 import {testAction} from './actions';
 
@@ -35,6 +38,9 @@ var Appception = React.createClass({
   handlePress(rowData, e) {
     this.props.dispatch(testAction(rowData));
   },
+  handleComponentChange(key, val) {
+    this.props.dispatch(testAction(key, val));
+  },
 
   render() {
     return (
@@ -44,6 +50,15 @@ var Appception = React.createClass({
         renderRow={(rowData) => <TouchableHighlight onPress={this.handlePress.bind(this, rowData)}style={styles.buttonStyle}><AdaptedText style={styles.buttonTextStyle}>{rowData}</AdaptedText></TouchableHighlight>}
         />
         <Text>{this.props.thingus}</Text>
+
+       <Text style={{color: this.props.color}}>
+        Input a hex color for me: {this.props.color}
+       </Text>
+        <TextInput
+          value={this.props.color}
+          onChangeText={this.handleComponentChange.bind(this, 'color')}
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+       />
       </View>
     );
   }
