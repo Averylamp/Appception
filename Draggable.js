@@ -35,7 +35,7 @@ export default class Draggable extends Component {
               } else {
                   Animated.spring(
                       this.state.pan,
-                      {toValue:{x:0,y:0}}
+                      {toValue:{x:0, y:0}}
                   ).start();
               }
           }

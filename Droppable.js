@@ -17,12 +17,12 @@ export default class Droppable extends Component {
       // TODO: only works heightwise (for now)
       let inHeight = (gesture.moveY > dz.y && gesture.moveY < dz.y + dz.height);
       let inWidth = (gesture.moveX > dz.x && gesture.moveX < dz.x + dz.width);
-      return inWidth && inHeight
+      return inWidth && inHeight;
   }
   render() {
     return (
         <View
-          onLayout={this.setDropZoneValues.bind(this)}     //Step 2
+          onLayout={this.setDropZoneValues.bind(this)}
           style={styles.dropZone}
         >
           {this.props.children}

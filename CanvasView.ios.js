@@ -19,7 +19,9 @@ var AddComponent = require('./AddComponent.ios.js');
 
 import Draggable from './Draggable';
 import Droppable from './Droppable';
+import {connect} from 'react-redux';
 
+import ComponentMap from './ComponentMap';
 
 
 var CanvasView = React.createClass({
@@ -28,8 +30,21 @@ var CanvasView = React.createClass({
   },
   gotoAddView() {
     this.props.navigator.push({
-      component: AddComponent,
+      component: AddComponent
     });
+  },
+
+  renderComponents() {
+    let children = this.props.components.map(function(x, i) {
+      let Component = ComponentMap[x.componentType];
+      if (x.componentType === 'LABEL') {
+        return (<Component {...x.props} key={i}>WHAT UP</Component>);
+      }
+
+      return (<Component {...x.props} key={i}/>);
+    });
+
+    return children;
   },
   render() {
     function findDropZone(gesture) {
@@ -40,21 +55,12 @@ var CanvasView = React.createClass({
       }
     }
 
-
-
     return (
       <View style={styles.container}>
-        <Droppable ref="drop1">
-            <View>
-              <Text>WHAT IS UP</Text>
-            </View>
-        </Droppable>
-
+        {this.renderComponents()}
         <Draggable onClick={this.gotoAddView} findDropZone={findDropZone.bind(this)} onDropped={this.handleDropped}>
             <Icon name="dot-circle-o" size={70} color="#900" />
         </Draggable>
-
-
       </View>
     );
   },
@@ -70,5 +76,8 @@ const styles = StyleSheet.create({
   },
 });
 
-//AppRegistry.registerComponent('AddComponent', () => AddComponent);
-module.exports = CanvasView;
+function select(state) {
+  return {components: state.components};
+}
+
+module.exports = connect(select)(CanvasView);
