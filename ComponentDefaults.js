@@ -3,12 +3,18 @@ var {
   VibrationIOS
 } = React;
 
+const DEFAULT_FG_COLOR = '#2FC3DA'
+const DEFAULT_BG_COLOR = '#292249';
+
+
 export const LabelDefaults = {
 	style: {
-		color: '#111111',
+		color: DEFAULT_FG_COLOR,
 		fontSize: 30,
 		padding: 20,
-		backgroundColor: '#55aaaa',
+		textAlign: 'center',
+		textAlignVertical: 'center',
+		backgroundColor: DEFAULT_BG_COLOR,
 		overflow: 'hidden',
 		borderRadius: 20,
 		borderWidth: 10,
@@ -19,17 +25,24 @@ export const LabelDefaults = {
 export const ButtonDefaults = {
 	highlightProps: {
 		onPress: x => VibrationIOS.vibrate(),
-		backgroundColor: '#ff0000'
+		underlayColor: DEFAULT_FG_COLOR,
+		style: {
+			backgroundColor: DEFAULT_BG_COLOR,
+		}
 	},
 	textProps: {
+		backgroundColor: DEFAULT_FG_COLOR,
 		text: "I'm a button"
+		style: {
+			backgroundColor: DEFAULT_BG_COLOR,
+		}
 	}
 };
 
 export const MapDefaults = {
 	highlightProps: {
 		onPress: x => VibrationIOS.vibrate(),
-		backgroundColor: '#ff0000'
+		backgroundColor: DEFAULT_BG_COLOR
 	},
 	textProps: {
 		text: "I'm a button"
@@ -39,7 +52,7 @@ export const MapDefaults = {
 export const TextDefaults = {
 	highlightProps: {
 		onPress: x => VibrationIOS.vibrate(),
-		backgroundColor: '#ff0000'
+		backgroundColor: DEFAULT_BG_COLOR
 	},
 	textProps: {
 		text: "I'm a button"
@@ -50,7 +63,7 @@ export const TextDefaults = {
 export const ListDefaults = {
 	highlightProps: {
 		onPress: x => VibrationIOS.vibrate(),
-		backgroundColor: '#ff0000'
+		backgroundColor: DEFAULT_BG_COLOR
 	},
 	textProps: {
 		text: "I'm a button"
