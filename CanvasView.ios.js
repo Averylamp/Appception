@@ -9,6 +9,7 @@ import React, {
   StyleSheet,
   Image,
   Text,
+  Button,
   View,
   ListView,
   TouchableHighlight
@@ -45,18 +46,23 @@ var CanvasView = React.createClass({
     this.dropzones = [];
     let _this = this;
     let children = this.props.components.map(function(x, i) {
-      let Component = ComponentMap[x.componentType];
-      if (x.componentType === 'LABEL') {
-        return (
-          <Droppable key={i} ref={'droppable' + x.id}>
-            <Component {...x.props} >WHAT UP</Component>
-          </Droppable>
-        );
-      }
+    let Component = ComponentMap[x.componentType];
+    if (x.componentType === 'LABEL') {
+      return (
+        <Droppable key={i} ref={'droppable' + x.id}>
+          <Component {...x.props} >WHAT UP</Component>
+        </Droppable>
+      );
+    } else {
+      return (
+        <Droppable key={i} ref={'droppable' + x.id}>
+          <Component {...x.props} key={i}/>
+        </Droppable>
+      );
+    }
 
-      return (<Component {...x.props} key={i}/>);
 
-    });
+  });
 
     return children;
   },
