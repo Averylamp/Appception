@@ -50,12 +50,14 @@ export const MapDefaults = {
 };
 
 export const TextDefaults = {
-	highlightProps: {
-		onPress: x => VibrationIOS.vibrate(),
-		backgroundColor: DEFAULT_BG_COLOR
-	},
-	textProps: {
-		text: "I'm a button"
+	style: {
+		fontSize: 20,
+		height: 20,
+		width: 200,
+		borderColor: 'ff0000',
+		borderRadius: 2,
+		color: '#000000',
+		backgroundColor: "red"
 	}
 };
 
@@ -76,7 +78,7 @@ export function getDefaults(key) {
 		'LABEL': LabelDefaults,
 		'BUTTON': ButtonDefaults,
 		'MAP': MapDefaults,
-		'TEXT FIELD': TextDefaults,
+		'TEXTFIELD': TextDefaults,
 		'LIST': ListDefaults,
 		'PIN': {}
 	}

@@ -42,6 +42,7 @@ var typeForProp = {
   'borderColor': 'color',
   'borderWidth': 'number',
   'borderRadius': 'number',
+  onPress: 'callback'
 };
 
 var PropertiesInspector = React.createClass({

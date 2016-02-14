@@ -1,6 +1,7 @@
 import React, {
   Text,
-  ListView
+  ListView,
+  TextInput
 } from 'react-native';
 
 import MapExample from './MapExample';
@@ -10,5 +11,6 @@ export default components = {
 	BUTTON: Button,
 	MAP: MapExample,
 	LIST: ListView,
+	TEXTFIELD: TextInput,
 	PIN: null
 };

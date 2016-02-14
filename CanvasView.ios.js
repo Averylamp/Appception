@@ -8,6 +8,7 @@ import React, {
   Component,
   StyleSheet,
   Image,
+  TextInput,
   Text,
   Dimensions,
   Button,
