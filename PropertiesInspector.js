@@ -146,7 +146,7 @@ var PropertiesInspector = React.createClass({
     }
 
     return (
-      <View key={key} style={{marginBottom: 10}}>
+      <View key={key} style={styles.numberPickerContainer}>
         <Text style={styles.numberPickerText}>{name}</Text>
         <Switch style={styles.numberPickerSegment} value={defaultValue}
          onValueChange={onChange.bind(this)}/>
@@ -251,6 +251,7 @@ const styles = StyleSheet.create({
     marginBottom:10,
     marginTop:5,
   },
+
   doneButton:{
     alignItems:'center',
     margin: 15,
