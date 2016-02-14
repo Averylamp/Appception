@@ -17,6 +17,7 @@ import React, {
 } from 'react-native';
 import { RadioButtons } from 'react-native-radio-buttons';
 import PropertiesInspector from './PropertiesInspector';
+
 var Icon = require('react-native-vector-icons/FontAwesome');
 var AddComponent = require('./AddComponent.ios.js');
 
@@ -25,6 +26,7 @@ import Droppable from './Droppable';
 import {connect} from 'react-redux';
 
 import ComponentMap from './ComponentMap';
+import MapExample from './MapExample';
 
 
 let CIRCLE_RADIUS = 50;
@@ -59,6 +61,9 @@ var CanvasView = React.createClass({
     let _this = this;
     let children = this.props.components.map(function(x, i) {
       let Component = ComponentMap[x.componentType];
+      if (x.componentType === "MAP") {
+        return <MapExample key={-1}/>
+      }
       let refName = 'droppable' + x.id;
       function recalc() {
         _this.refs[refName].recalculate();

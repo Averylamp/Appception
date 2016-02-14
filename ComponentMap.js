@@ -1,13 +1,15 @@
 import React, {
   Text,
-  ListView,
+  ListView
 } from 'react-native';
 
+import MapExample from './MapExample';
+console.log(MapExample);
 import Button from './Button';
 export default components = {
 	LABEL: Text,
 	BUTTON: Button,
-	MAP: null,
+	MAP: MapExample,
 	LIST: ListView,
 	PIN: null
 };

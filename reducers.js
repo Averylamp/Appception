@@ -1,6 +1,6 @@
 import {TEST_ACTION, CREATE_COMPONENT,EDIT_COMPONENT} from './actions';
 import _ from 'lodash';
-import {ButtonDefaults} from './ComponentDefaults'
+import {getDefaults} from './ComponentDefaults'
 
 export function thingus(state, action) {
 	switch (action.type) {
@@ -23,19 +23,11 @@ export function thingus(state, action) {
 // }
 
 export function components(state, action) {
-	state = _.clone(state) || [{componentType: "LABEL", id: _.uniqueId('cmp'), props: {style: {color: '#114499'}}}];
+	state = _.clone(state) || [];
 	switch(action.type) {
 		case CREATE_COMPONENT:
-			console.log(action)
-			// switch (action.componentType) {
-			// 	case "LABEL":
-			//
-			// 	case "BUTTON":
-			// 		break;
-			// 	default:
-			//
-			// }
-			state.push({componentType: action.componentType, id: _.uniqueId('cmp'), props: action.props || ButtonDefaults});
+			let newComponent = {componentType: action.componentType, id: _.uniqueId('cmp'), props: action.props || getDefaults(action.componentType)};
+			state.push(newComponent);
 			return state;
 		case EDIT_COMPONENT:
 			var newState = [];

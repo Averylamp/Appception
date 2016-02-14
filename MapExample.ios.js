@@ -22,30 +22,28 @@ var MapExample = React.createClass({
   getInitialState() {
     return {
       latitude: 37.78825,
-      longitude: -100.4324,
+      longitude: -122.170213,
       latitudeDelta: 0.0122,
       longitudeDelta: 0.0121,
     };
   },
 
   onRegionChange(region) {
-    console.log(arguments);
-    // this.setState({ region });
+    this.setState({ region });
   },
 
   render() {
     return (
-      <View style={{flex:1}}>
         <MapView
-          initialRegion={this.state.region}
           style={styles.map}
           region={this.state.region}
-          onRegionChange={this.onRegionChange}>
+          onRegionChange={this.onRegionChange}
+          >
           <MapView.Marker
               key={10}
               coordinate={{
                 latitude: 37.78825,
-                longitude: -100.4324
+                longitude: -122.170213
               }}
               pinColor="#ff0000"
             >
@@ -56,7 +54,6 @@ var MapExample = React.createClass({
             </MapView.Callout>            
           </MapView.Marker>
         </MapView>
-      </View>
     );
   }
 });
@@ -88,4 +85,4 @@ const styles = StyleSheet.create({
 
 });
 
-module.exports = MapExample;
+export default MapExample;
