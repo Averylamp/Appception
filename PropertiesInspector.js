@@ -158,7 +158,7 @@ var PropertiesInspector = React.createClass({
   addTextValueField(path, defaultValue) {
     let name = _.last(path);
     let id = _.uniqueId('textfield');
-    return (<View key={_.uniqueId('key')} style={{marginBottom:10, marginLeft:10, fontSize:20}}>
+    return (<View key={_.uniqueId('key')} style={{marginBottom:10, marginLeft:10}}>
       <FloatLabelTextInput
         ref={id}
         style={styles.textFieldStyle}
