@@ -37,7 +37,6 @@ var Appception = React.createClass({
       <Component
         route={route}
         {...route.passProps}
-        //name={route.name}
         navigator={navigator}
         topNavigator={navigator}
       />

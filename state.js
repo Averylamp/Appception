@@ -2,18 +2,21 @@
 
 import React, {View} from 'react-native';
 import {connect, Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import * as reducers from './reducers';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
 
 // lets us dispatch() functions
 import thunkMiddleware from 'redux-thunk';
-import reducers from './reducers';
+import createLogger from 'redux-logger'
+
 
 let createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware
+  thunkMiddleware,
+  createLogger()
 )(createStore);
 
 let INITIAL_STATE = {}; // TODO populate from persistent store.
-let store = createStoreWithMiddleware(reducers, INITIAL_STATE);
+let store = createStoreWithMiddleware(combineReducers(reducers), INITIAL_STATE);
 
 function select(state) {
   //filter to only expose parts of state

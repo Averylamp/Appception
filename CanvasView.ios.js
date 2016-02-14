@@ -13,36 +13,76 @@ import React, {
   ListView,
   TouchableHighlight
 } from 'react-native';
-import { RadioButtons } from 'react-native-radio-buttons'
+import { RadioButtons } from 'react-native-radio-buttons';
+import PropertiesInspector from './PropertiesInspector';
 var Icon = require('react-native-vector-icons/FontAwesome');
 var AddComponent = require('./AddComponent.ios.js');
 
+import Draggable from './Draggable';
+import Droppable from './Droppable';
+import {connect} from 'react-redux';
+
+import ComponentMap from './ComponentMap';
+
 
 var CanvasView = React.createClass({
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <TouchableHighlight style={styles.magicButton} onPress={()=>this.gotoAddView()}>
-          <Icon name="dot-circle-o" size={70} color="#900" />
-        </TouchableHighlight>
-      </View>
-    );
+  componentDidMount() {
+    this.dropzones = [];
   },
-
+  handleDropped(cmp) {
+    this.props.navigator.push({
+      component: PropertiesInspector,
+      passProps: {cmp}
+    });
+  },
   gotoAddView() {
     this.props.navigator.push({
-      component: AddComponent,
+      component: AddComponent
     });
   },
 
-  droppedOnView(x,y) {
+  renderComponents() {
+    this.dropzones = [];
+    let _this = this;
+    let children = this.props.components.map(function(x, i) {
+      let Component = ComponentMap[x.componentType];
+      if (x.componentType === 'LABEL') {
+        return (
+          <Droppable key={i} ref={'droppable' + x.id}>
+            <Component {...x.props} >WHAT UP</Component>
+          </Droppable>
+        );
+      }
 
+      return (<Component {...x.props} key={i}/>);
+
+    });
+
+    return children;
   },
+  render() {
+    let children = this.renderComponents();
 
-  getViewRect() {
+    function findDropZone(gesture) {
+      for(var i = 0; i < children.length; i++) {
+        let cmp = this.props.components[i];
+        let dropzone = this.refs['droppable' + cmp.id];
+        if (dropzone.isDropZone(gesture)) {
+          return cmp;
+        }
+      }
+      return false;
+    }
 
-  }
+    return (
+      <View style={styles.container}>
+        {children}
+        <Draggable onClick={this.gotoAddView} findDropZone={findDropZone.bind(this)} onDropped={this.handleDropped}>
+            <Icon name="dot-circle-o" size={70} color="#900" />
+        </Draggable>
+      </View>
+    );
+  },
 });
 
 const styles = StyleSheet.create({
@@ -53,14 +93,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-
-  magicButton: {
-    position:'absolute',
-    right: 50,
-    bottom: 50,
-  }
-
 });
 
-//AppRegistry.registerComponent('AddComponent', () => AddComponent);
-module.exports = CanvasView;
+function select(state) {
+  return {components: state.components};
+}
+
+module.exports = connect(select)(CanvasView);
