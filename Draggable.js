@@ -98,8 +98,8 @@ Draggable.defaultProps = {
   sticky: false,
   initialPosition: {
     position    : 'absolute',
-    top         : Window.height / 2 - 40,
-    left        : Window.width / 2 - 40
+    top         : Window.height / 2 - 120,
+    left        : Window.width / 2 - 120
   }
 };
 

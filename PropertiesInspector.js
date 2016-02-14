@@ -104,6 +104,7 @@ var PropertiesInspector = React.createClass({
     }
 
     this.props.dispatch(editComponent(this.props.cmp.id, obj));
+
   },
 
   componentDidMount() {
@@ -117,8 +118,6 @@ var PropertiesInspector = React.createClass({
     return this.refs['OPTIONLIST'];
   },
   render() {
-    var options = [1,2,3,4];
-
     return (
       <ScrollView>
         <View style={{marginTop:15, flex:1}} />
@@ -131,8 +130,10 @@ var PropertiesInspector = React.createClass({
   renderControl() {
     console.log('rerender!!');
     var paths = this.getPathsFromObject(this.props.cmp);
+
     var dropdowns = _.remove(paths, path => path.type === 'callback');
     paths = paths.concat(dropdowns);      
+
     var self = this;
     return <View style={{flex:1}}>
       {
@@ -159,7 +160,7 @@ var PropertiesInspector = React.createClass({
   addTextValueField(path, defaultValue) {
     let name = _.last(path);
     let id = _.uniqueId('textfield');
-    return (<View key={_.uniqueId('key')} style={{marginBottom:10}}>
+    return (<View key={_.uniqueId('key')} style={{marginBottom:10, marginLeft:10}}>
       <FloatLabelTextInput
         ref={id}
         style={styles.textFieldStyle}
@@ -213,6 +214,7 @@ var PropertiesInspector = React.createClass({
   addDropDownMenu(path, options) {
     options = options || [];
     let val = this.getValueFromObject(path);
+
     let key = _.last(path);
      if (key === 'onPress') {
        val = callbacksToStrings(val);
@@ -262,11 +264,15 @@ const styles = StyleSheet.create({
     height: 100,
     borderBottomWidth:0,
     borderColor:'white',
+    fontWeight: 'bold',
+    fontFamily: 'Arial'
   },
   colorTitleStyle: {
     height:22,
     fontSize:18,
-    marginLeft:10,
+    marginLeft: 20,
+    fontWeight: 'bold',
+    fontFamily: 'Arial'
   },
   numberPickerText:{
     marginLeft:20,
@@ -285,13 +291,14 @@ const styles = StyleSheet.create({
     marginBottom:10,
     marginTop:5,
     flex:1,
+    marginRight: 20
   },
 
   doneButton:{
     alignItems:'center',
     margin: 15,
-    marginLeft:30,
-    marginRight:30,
+    marginLeft:20,
+    marginRight:20,
     backgroundColor:'#77c588',
     height:60,
     borderRadius:10,
@@ -304,6 +311,8 @@ const styles = StyleSheet.create({
   doneText: {
     fontSize:24,
     marginTop:12,
+    fontWeight: 'bold',
+    fontFamily: 'Arial'
   }
 });
 

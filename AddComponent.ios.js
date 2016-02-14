@@ -167,9 +167,9 @@ const styles = StyleSheet.create({
   },
   doneButton:{
     alignItems:'center',
-    margin: 15,
-    marginLeft:30,
-    marginRight:30,
+    margin: 10,
+    marginLeft:20,
+    marginRight:20,
     backgroundColor:'#77c588',
     height:60,
     borderRadius:10,

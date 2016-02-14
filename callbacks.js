@@ -1,9 +1,16 @@
 var React = require('react-native');
 var {
   VibrationIOS,
+<<<<<<< HEAD
   fetch
 } = React;
 
+=======
+} = React;
+
+import {sendMessage} from './MessageExample.ios.js';
+console.log(sendMessage);
+>>>>>>> master
 let callInterval = null;
 
 function vibrate() {
@@ -11,7 +18,11 @@ function vibrate() {
 }
 
 export const stringsToCallbacks = {
+<<<<<<< HEAD
 	'phone_message': function phone_message() {console.log('phonem');},
+=======
+	'phone_message': function phone_message() { sendMessage()},
+>>>>>>> master
 	'vibration': function vibration() {
 		vibrate();
 	},
