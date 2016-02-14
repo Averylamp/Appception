@@ -32,6 +32,10 @@ export default class Draggable extends Component {
 			  let cmp = this.props.findDropZone(gesture);
             if (cmp) {
             	this.props.onDropped(cmp);
+              Animated.spring(
+                  this.state.pan,
+                  {toValue:{x:0, y:0}}
+              ).start();
             } else {
                 Animated.spring(
                     this.state.pan,
