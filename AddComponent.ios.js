@@ -65,7 +65,9 @@ var AddComponent = React.createClass({
             >
           </SegmentedControls>
           </View>
-          <TouchableHighlight style={styles.addSegmentButton} onPress={() => this._addSegment()}><Text style={{fontSize:20, backgroundColor:'#77c588',marginRight:10,marginTop:3,color:'white'}}> Add </Text></TouchableHighlight>
+          <TouchableHighlight style={styles.addSegmentButton} onPress={() => this._addSegment()}>
+              <Text style={{fontSize:20, backgroundColor:'#77c588',marginRight:10, marginLeft:10, marginRight: 25, color:'white', borderRadius:10}}> + </Text>
+          </TouchableHighlight>
         </View>
 
 
@@ -73,16 +75,18 @@ var AddComponent = React.createClass({
         dataSource={this.state.dataSource}
         renderRow={(rowData) => <TouchableHighlight onPress={this.handlePress.bind(this, rowData)}style={styles.buttonStyle}><Text style={styles.buttonTextStyle}>{rowData}</Text></TouchableHighlight>}
         />
-        <Text>{this.props.thingus}</Text>
+        <View style={{marginLeft:20, marginRight:20}}>
+          <Text >{this.props.thingus}</Text>
 
-        <Text style={{color: this.props.color}}>
-        Input a hex color for me: {this.props.color}
-        </Text>
-        <TextInput
-          value={this.props.color}
-          onChangeText={this.handleComponentChange.bind(this, 'color')}
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-       />
+          <Text style={{color: this.props.color}}>
+          Input a hex color for me: {this.props.color}
+          </Text>
+          <TextInput
+            value={this.props.color}
+            onChangeText={this.handleComponentChange.bind(this, 'color')}
+            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          />
+        </View>
 
       </View>
 
@@ -104,9 +108,14 @@ const styles = StyleSheet.create({
   buttonStyle: {
     height:70,
     backgroundColor:'#2196f3',
-    borderWidth: 10,
-    borderTopWidth:5,
-    borderBottomWidth:5,
+    //borderWidth: 10,
+    //borderTopWidth:5,
+    //borderBottomWidth:5,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 6,
+    marginBottom: 6,
+
     borderRadius: 6,
     shadowOffset:{
       height:1,
@@ -117,26 +126,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonTextStyle: {
-    fontSize: 18,
+    fontSize: 28,
+    fontWeight: 'bold',
     backgroundColor:'transparent',
     marginTop:17,
-    fontFamily:'Geeza Pro',
+    fontFamily:'Arial',
     color:'white'
   },
   vcButtonStyle: {
     backgroundColor:'blue',
-    height: 100,
+    marginLeft: 20,
+    marginRight: 10,
+    marginBottom: 6,
+    height: 120,
     flexDirection:'row',
     borderRadius: 20,
     flex: 0.3,
   },
   vcTextStyle:{
-
+    fontFamily:'Arial',
+    fontSize:18,
+    fontWeight: 'bold',
+    flex: 0.3,
+    color:'white',
   },
 
   topBarContainer: {
     marginTop: 40,
-    marginLeft: 10,
+    marginBottom: 6,
+    marginLeft: 20,
     flex:1,
     flexDirection: 'row'
   },
@@ -147,7 +165,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     //alignItems:'center',
     //flex: 4,
-    },
+  },
   addSegmentButton: {
     flex:1,
 
