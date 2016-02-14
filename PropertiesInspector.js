@@ -80,7 +80,7 @@ var PropertiesInspector = React.createClass({
         <View style={{marginTop:15, flex:1}} />
         <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
         {this.renderControl()}
-          {this.addDropDownMenu('asdf','nothing',['asdf','aaa','dfs','hgasd','asdf'])}
+        {this.addDropDownMenu('asdf','nothing',['asdf','aaa','dfs','hgasd','asdf'])}
       </ScrollView>
     );
   },
@@ -89,7 +89,7 @@ var PropertiesInspector = React.createClass({
     console.log(this.props.cmp.props);
     var items = this.props.cmp.props;
     var styleItems = this.props.cmp.props.style;
-    var allProps = _.extend(items, styleItems);
+    var allProps = _.extend({}, items, styleItems);
     var self = this;
     return (
       <View style={{flex:1}}>
@@ -132,6 +132,7 @@ var PropertiesInspector = React.createClass({
     function onChange(val) {
       let newObj = _.clone(component);
       newObj.props.style[name] = val;
+      console.log(newObj);
       this.props.dispatch(editComponent(component.id, newObj));
     }
 
@@ -165,7 +166,7 @@ var PropertiesInspector = React.createClass({
         optionListRef={this._getOptionList}
         defaultValue="Select an action ..."
         onSelect={this._canada}>
-        {options.map(x => <Option>{x}</Option>)}
+        {options.map((x,i) => <Option key={i}>{x}</Option>)}
       </Select>
     </View>)
   },

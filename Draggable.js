@@ -8,6 +8,7 @@ import React,{
     Dimensions
 } from 'react-native';
 const CLICK_THRESHOLD = 20;
+let Window = Dimensions.get('window');
 
 
 export default class Draggable extends Component {
@@ -95,7 +96,11 @@ Draggable.defaultProps = {
 	findDropZone: () => false,
 	onClick: () => true,
   sticky: false,
-  initialPosition: {}
+  initialPosition: {
+    position    : 'absolute',
+    top         : Window.height / 2 - 40,
+    left        : Window.width / 2 - 40
+  }
 };
 
 let staticStyles = {

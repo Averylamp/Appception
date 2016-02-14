@@ -32,7 +32,7 @@ export function components(state, action) {
 		case EDIT_COMPONENT:
 			var newState = [];
 			for (var i = 0; i < state.length;i++){
-				if (state[i].id == action.updateID) {
+				if (state[i].id === action.updateID) {
 					newState.push(action.value);
 				} else {
 					newState.push(state[i]);
