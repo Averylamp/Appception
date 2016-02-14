@@ -51,6 +51,10 @@ var AddComponent = React.createClass({
     this.setState({selectedOption});
   },
 
+  _done: function(){
+    this.props.navigator.pop();
+  },
+
   render() {
 
     return (
@@ -76,17 +80,9 @@ var AddComponent = React.createClass({
         renderRow={(rowData) => <TouchableHighlight onPress={this.handlePress.bind(this, rowData)}style={styles.buttonStyle}><Text style={styles.buttonTextStyle}>{rowData}</Text></TouchableHighlight>}
         />
         <View style={{marginLeft:20, marginRight:20}}>
-          <Text >{this.props.thingus}</Text>
-
-          <Text style={{color: this.props.color}}>
-          Input a hex color for me: {this.props.color}
-          </Text>
-          <TextInput
-            value={this.props.color}
-            onChangeText={this.handleComponentChange.bind(this, 'color')}
-            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          />
         </View>
+        <TouchableHighlight style={styles.doneButton} onPress={() => this._done()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
+
       </View>
     );
   }
@@ -168,6 +164,27 @@ const styles = StyleSheet.create({
 
     //flexDirection:'row',
     alignItems:"flex-end",
+  },
+  doneButton:{
+    alignItems:'center',
+    margin: 15,
+    marginLeft:30,
+    marginRight:30,
+    backgroundColor:'#77c588',
+    height:60,
+    borderRadius:10,
+    shadowOpacity:0.2,
+    shadowOffset:{
+      x:2,
+      y:2
+    }
+  },
+  doneText: {
+    fontFamily:'Arial',
+    fontSize:34,
+    fontWeight: 'bold',
+    marginTop:10,
+    color:'white',
   }
 });
 
