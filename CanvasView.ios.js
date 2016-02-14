@@ -73,8 +73,8 @@ var CanvasView = React.createClass({
         <Draggable onDropped={recalc} key={i}>
           <Droppable ref={refName}>
             {
-              x.componentType === 'LABEL' ? 
-                <Component {...x.props} style={style} >What's up</Component> :
+              x.componentType === 'LABEL' ?
+                <Component {...x.props} style={style} >Whats up</Component> :
                 <Component {...x.props} style={style} />
             }
           </Droppable>
