@@ -12,6 +12,7 @@ import React, {
   SliderIOS,
   ScrollView,
   Dimensions,
+  Switch
 } from 'react-native';
 import _ from 'lodash';
 
@@ -47,6 +48,9 @@ var typeForProp = {
   'height': 'number',
   'width': 'number',
   'value': 'text',
+  'editable': 'boolean',
+  'padding': 'number',
+  'margin': 'number',
 };
 
 
@@ -131,6 +135,8 @@ var PropertiesInspector = React.createClass({
               return self.addNumberValueField(path.keys);
             case 'callback':
               return self.addCallbackValueField(path.keys);
+            case 'boolean':
+              return self.addSwitchValueField(key, value, self.props.cmp, key);
             default:
               return null;
           }
@@ -155,14 +161,21 @@ var PropertiesInspector = React.createClass({
     </View>)
   },
 
-  addColorValueField(path) {
-    let name = _.last(path);
-    var clr = this.getValueFromObject(path);
+  addSwitchValueField(name, defaultValue, component, key) {
+
+    //TODO
+    function onChange(val) {
+      let newObj = _.clone(component);
+      newObj.props[name] = val;
+      console.log(newObj);
+      this.props.dispatch(editComponent(component.id, newObj));
+    }
 
     return (
-      <View key={_.uniqueId('key')}>
-        <Text style={styles.colorTitleStyle}>{name}</Text>
-        <ColorPicker color={clr} onChange={this.onChange.bind(this, path)} />
+      <View key={key} style={styles.numberPickerContainer}>
+        <Text style={styles.numberPickerText}>{name}</Text>
+        <Switch style={styles.numberPickerSegment} value={defaultValue}
+         onValueChange={onChange.bind(this)}/>
       </View>
     );
   },
@@ -182,6 +195,7 @@ var PropertiesInspector = React.createClass({
        </View>
     )
   },
+
   addDropDownMenu(path, options) {
     options = options || [];
     let val = this.getValueFromObject(path);
@@ -198,7 +212,19 @@ var PropertiesInspector = React.createClass({
     </View>)
   },
 
+  addColorValueField(path) {
+    let name = _.last(path);
+    var clr = this.getValueFromObject(path);
+
+    return (<View key={_.uniqueId('key')}>
+         <Text style={styles.colorTitleStyle}>{name}</Text>
+        <ColorPicker color={clr} onChange={this.onChange.bind(this, path)} />
+     </View>);
+  },
+
   addCallbackValueField(name, defaultValue, options) {
+
+
   }
 
 
@@ -238,6 +264,7 @@ const styles = StyleSheet.create({
     marginBottom:10,
     marginTop:5,
   },
+
   doneButton:{
     alignItems:'center',
     margin: 15,
