@@ -12,6 +12,7 @@ import React, {
   SliderIOS,
   ScrollView,
   Dimensions,
+  Switch
 } from 'react-native';
 import _ from 'lodash';
 
@@ -47,6 +48,9 @@ var typeForProp = {
   'height': 'number',
   'width': 'number',
   'value': 'text',
+  'editable': 'boolean',
+  'padding': 'number',
+  'margin': 'number',
 };
 
 var PropertiesInspector = React.createClass({
@@ -109,6 +113,8 @@ var PropertiesInspector = React.createClass({
               return self.addNumberValueField(key,value, self.props.cmp, key);
             case 'callback':
               return self.addCallbackValueField(key, value, self.props.cmp, key);
+            case 'boolean':
+              return self.addSwitchValueField(key, value, self.props.cmp, key);
             default:
               console.log(key + "IS MISSING FROM TypeForProps");
               return null;
@@ -124,11 +130,28 @@ var PropertiesInspector = React.createClass({
     return (<View key={key} style={{marginBottom:10}}>
       <FloatLabelTextInput
         style={styles.textFieldStyle}
-        placeHolder={defaultValue}
-        value={name}
+        placeHolder={name}
+        value={defaultValue}
         noBorder
       />
     </View>)
+  },
+
+  addSwitchValueField(name, defaultValue, component, key) {
+    function onChange(val) {
+      let newObj = _.clone(component);
+      newObj.props[name] = val;
+      console.log(newObj);
+      this.props.dispatch(editComponent(component.id, newObj));
+    }
+
+    return (
+      <View key={key} style={{marginBottom: 10}}>
+        <Text style={styles.numberPickerText}>{name}</Text>
+        <Switch style={styles.numberPickerSegment} value={defaultValue}
+         onValueChange={onChange.bind(this)}/>
+      </View>
+    )
   },
 
   addColorValueField(name, defaultValue, component, key) {

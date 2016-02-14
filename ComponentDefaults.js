@@ -6,7 +6,7 @@ var {
 
 const DEFAULT_FG_COLOR = '#d6eff9'
 const DEFAULT_BG_COLOR = '#35ace5';
-const DEFAULT_BG_COLOR2 = '#154160'; 
+const DEFAULT_BG_COLOR2 = '#154160';
 const DEFAULT_FG_COLOR2 = '#d8f0fb';
 
 export const LabelDefaults = {
@@ -64,13 +64,15 @@ export const TextDefaults = {
 	style: {
 		fontSize: 20,
 		height: 20,
+    padding: 20,
 		width: 200,
 		borderColor: 'ff0000',
 		borderRadius: 2,
 		color: '#000000',
-		backgroundColor: '#ff0000'
+		backgroundColor: '#ff0000',
 	},
-	value: 'hat'
+	value: 'Your text here',
+  editable: true,
 };
 
 
