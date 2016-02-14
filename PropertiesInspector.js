@@ -96,6 +96,15 @@ var PropertiesInspector = React.createClass({
         <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
 
         {this.renderButton()}
+          <Text > Select your action: {this.state.canada}</Text>
+            <OptionList ref="OPTIONLIST"/>
+        <Select
+            ref="SELECT1"
+            optionListRef={this._getOptionList}
+            defaultValue="Select an action ..."
+            onSelect={this._canada}>
+            {options.map(x => <Option>{x}</Option>)}
+          </Select>
 
 
       </ScrollView>
@@ -112,7 +121,6 @@ var PropertiesInspector = React.createClass({
         {this.addTextValueField("hello","Button Title")}
         {this.addColorValueField("Background Color","defaultValue")}
         {this.addNumberIncrementer("Border Radius",0)}
-        {this.addDropDownMenu("On Click:", "Do Nothing",["A","B","C",])}
       </View>
     );
   },
@@ -178,19 +186,6 @@ return (<View style={{}}>
        </View>
 
     )
-  },
-  addDropDownMenu(name, defaultValue, options){
-    return(<View>
-      <Text > Select your action: {this.state.canada}</Text>
-        <OptionList ref="OPTIONLIST"/>
-      <Select
-        ref="SELECT1"
-        optionListRef={this._getOptionList}
-        defaultValue="Select an action ..."
-        onSelect={this._canada}>
-        {options.map(x => <Option>{x}</Option>)}
-      </Select>
-    </View>)
   }
 
 

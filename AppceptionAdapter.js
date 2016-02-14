@@ -7,7 +7,6 @@ function AppceptionAdapter(Component) {
     setNativeProps(nativeProps) {
       this._root.setNativeProps(nativeProps);
     },
-
     render() {
       return (
         <View ref={component => this._root = component}>
