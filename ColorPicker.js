@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     alignItems:"flex-end",
     // justifyContent:'flex-end',
     flex:1.0,
+    marginRight: 20
   },
   containerForSliders: {
     flexDirection:'row',

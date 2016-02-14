@@ -158,7 +158,7 @@ var PropertiesInspector = React.createClass({
   addTextValueField(path, defaultValue) {
     let name = _.last(path);
     let id = _.uniqueId('textfield');
-    return (<View key={_.uniqueId('key')} style={{marginBottom:10}}>
+    return (<View key={_.uniqueId('key')} style={{marginBottom:10, marginLeft:10, fontSize:20}}>
       <FloatLabelTextInput
         ref={id}
         style={styles.textFieldStyle}
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   colorTitleStyle: {
     height:22,
     fontSize:18,
-    marginLeft:10,
+    marginLeft: 20,
     fontWeight: 'bold',
     fontFamily: 'Arial'
   },
