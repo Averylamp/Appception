@@ -23,60 +23,62 @@ Composer.messagingSupported(supported => {
 	//       </View>
 	//     );
  //    }
- console.log("hellp");
 });
+
+
+export function onPressButton(args) {
+	sendMessage({
+	    'messageText':'My sample message body text',
+	    'subject':'My Sample Subject',
+	    'recipients':['0987654321', '0123456789']
+	});
+};
+
+// inside your code where you would like to send a message 
+export function sendMessage (args) {
+	Composer.composeMessageWithArgs(
+		args,
+		(result) => {
+			switch(result) {
+				case Composer.Sent:
+					console.log('the message has been sent');
+					break;
+				case Composer.Cancelled:
+					console.log('user cancelled sending the message');
+					break;
+				case Composer.Failed:
+					console.log('failed to send the message');
+					break;
+				case Composer.NotSupported:
+					console.log('this device does not support sending texts');
+					break;
+				default:
+					console.log('something unexpected happened');
+					break;
+			}
+		}
+	);
+};
+
 
 var MessageExample = React.createClass({
     getInitialState() {
       return {};
     },
 
-	_onPressButton: function(args){
-		this._sendMessage({
-				    'messageText':'My sample message body text',
-				    'subject':'My Sample Subject',
-				    'recipients':['0987654321', '0123456789']
-	        	});
-	},
-
-	// inside your code where you would like to send a message 
-	_sendMessage: function (args) {
-		Composer.composeMessageWithArgs(
-			args,
-			(result) => {
-				switch(result) {
-					case Composer.Sent:
-						console.log('the message has been sent');
-						break;
-					case Composer.Cancelled:
-						console.log('user cancelled sending the message');
-						break;
-					case Composer.Failed:
-						console.log('failed to send the message');
-						break;
-					case Composer.NotSupported:
-						console.log('this device does not support sending texts');
-						break;
-					default:
-						console.log('something unexpected happened');
-						break;
-				}
-			}
-		);
-	},
-  render() {
-    return (
+   render() {
+     return (
       <View style={{flex:1}}>
       	<View style={styles.buttonContainer}>
 	      <Button
-	      	highlightProps={{onPress: this._onPressButton, style: styles.buttonStyle, underlayColor: '#20967C'}}
+	      	highlightProps={{onPress: onPressButton, style: styles.buttonStyle, underlayColor: '#20967C'}}
 	      	containProps={{style: styles.textContainer}}
 	      	textProps={{style: styles.text, text: 'Message a friend!'}}
 	  	  />
 	  	</View>
       </View>
-    );
-  }
+     );
+   }
 
 });
 
@@ -100,8 +102,4 @@ const styles = StyleSheet.create({
     fontSize:35,
     color:'white'
   }
-
 });
-
-
-module.exports = MessageExample;

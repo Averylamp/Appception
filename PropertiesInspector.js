@@ -26,6 +26,7 @@ var FloatLabelTextInput = require('react-native-floating-label-text-input');
 var Spinner = require('rn-spinner');
 import Stateful from './state';
 import {editComponent} from './actions';
+import {stringsToCallbacks, callbacksToStrings} from './callbacks';
 const DropDown = require('react-native-dropdown');
 const {
   Select,
@@ -59,7 +60,7 @@ var PropertiesInspector = React.createClass({
 
   copyPropertyToObject: function(path, val) {
     let newObj = _.cloneDeep(this.props.cmp);
-    _.set(newObj, path, _.clone(val));
+    _.set(newObj, path, _.isFunction(val) ? val : _.clone(val));
     return newObj;
   },
 
@@ -92,8 +93,17 @@ var PropertiesInspector = React.createClass({
   },
 
   onChange: function(path, val) {
-    let obj = this.copyPropertyToObject(path, val);
+    let key = _.last(path);
+    let obj;
+    if (key === 'onPress') {
+      obj = this.copyPropertyToObject(path, stringsToCallbacks[val]);
+      console.log(obj);
+    } else {
+      obj = this.copyPropertyToObject(path, val);
+    }
+
     this.props.dispatch(editComponent(this.props.cmp.id, obj));
+
   },
 
   componentDidMount() {
@@ -107,14 +117,11 @@ var PropertiesInspector = React.createClass({
     return this.refs['OPTIONLIST'];
   },
   render() {
-    var options = [1,2,3,4];
-
     return (
       <ScrollView>
         <View style={{marginTop:15, flex:1}} />
         <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
         {this.renderControl()}
-        {this.addDropDownMenu('asdf',['asdf','aaa','dfs','hgasd','asdf'])}
       </ScrollView>
     );
   },
@@ -122,6 +129,9 @@ var PropertiesInspector = React.createClass({
   renderControl() {
     console.log('rerender!!');
     var paths = this.getPathsFromObject(this.props.cmp);
+
+    var dropdowns = _.remove(paths, path => path.type === 'callback');
+    paths = paths.concat(dropdowns);  
     var self = this;
     return <View style={{flex:1}}>
       {
@@ -202,10 +212,16 @@ var PropertiesInspector = React.createClass({
   addDropDownMenu(path, options) {
     options = options || [];
     let val = this.getValueFromObject(path);
-    return(<View>
-      <Text > Select your action: }</Text>
+
+    let key = _.last(path);
+    if (key === 'onPress') {
+      val = callbacksToStrings(val);
+    }
+    return(<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'center'}} key={_.uniqueId('key')} >
+      <Text style={{textAlignVertical: 'bottom'}} > Action: {val}</Text>
         <OptionList ref="OPTIONLIST"/>
       <Select
+        style={{marginBottom: 100}}
         ref="SELECT1"
         optionListRef={() => this.refs.OPTIONLIST}
         defaultValue={val}
@@ -225,9 +241,10 @@ var PropertiesInspector = React.createClass({
      </View>);
   },
 
-  addCallbackValueField(name, defaultValue, options) {
-
-
+  addCallbackValueField(path, options) {
+    let opts = _.keys(stringsToCallbacks);
+    console.log(opts);
+    return this.addDropDownMenu(path, opts);
   }
 
 

@@ -10,11 +10,11 @@ const DEFAULT_BG_COLOR2 = '#154160';
 const DEFAULT_FG_COLOR2 = '#d8f0fb';
 
 export const LabelDefaults = {
-  text: 'What up1!!',
+  text: "LABEL",
 	style: {
 		color: DEFAULT_FG_COLOR,
-		fontSize: 20,
-		padding: 15,
+		fontSize: 50,
+		padding: 35,
 		fontWeight: 'bold',
 		textAlign: 'center',
 		textAlignVertical: 'center',
@@ -39,8 +39,8 @@ export const ButtonDefaults = {
 		text: "I'm a button",
 		style: {
 			backgroundColor: DEFAULT_BG_COLOR,
-			fontSize: 20,
-			padding: 15,
+			fontSize: 50,
+			padding: 35,
 			fontWeight: 'bold',
 			textAlign: 'center',
 			textAlignVertical: 'center',
