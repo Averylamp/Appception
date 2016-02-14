@@ -108,15 +108,12 @@ var PropertiesInspector = React.createClass({
   },
 
   componentDidMount() {
-   updatePosition(this.refs['SELECT1']);
-   updatePosition(this.refs['OPTIONLIST']);
+   // updatePosition(this.refs['SELECT1']);
+   // updatePosition(this.refs['OPTIONLIST']);
  },
  _save() {
   this.props.navigator.pop();
  },
-  _getOptionList() {
-    return this.refs['OPTIONLIST'];
-  },
   render() {
     return (
       <ScrollView>
