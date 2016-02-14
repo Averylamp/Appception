@@ -14,6 +14,7 @@ import React, {
   ScrollView,
   Dimensions,
 } from 'react-native';
+import _ from 'lodash';
 
 
 import { SegmentedControls } from 'react-native-radio-buttons';
@@ -22,7 +23,7 @@ let AdaptedText = AppceptionAdapter(Text);
 import AppceptionAdapter from './AppceptionAdapter';
 var FloatLabelTextInput = require('react-native-floating-label-text-input');
 import Stateful from './state';
-import {testAction} from './actions';
+import {editComponent} from './actions';
 const DropDown = require('react-native-dropdown');
 const {
   Select,
@@ -34,6 +35,15 @@ const {
 let Window = Dimensions.get('window');
 var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
 
+var typeForProp = {
+  'color': 'color',
+  'backgroundColor': 'color',
+  'text': 'text',
+  'borderColor': 'color',
+  'borderWidth': 'number',
+  'borderRadius': 'number',
+};
+
 var PropertiesInspector = React.createClass({
 
   getInitialState: function() {
@@ -43,9 +53,9 @@ var PropertiesInspector = React.createClass({
       dataSource: ds.cloneWithRows(objects),
       vcOptions: ['View 1','View 2'],
       canada: '',
-      //rValue:this._hexToRgb(this.props.cmp.props.style.color).r,
-      //gValue:this._hexToRgb(this.props.cmp.props.style.color).g,
-      //bValue:this._hexToRgb(this.props.cmp.props.style.color).b,
+      rValue:this._hexToRgb(this.props.cmp.props.style.color).r,
+      gValue:this._hexToRgb(this.props.cmp.props.style.color).g,
+      bValue:this._hexToRgb(this.props.cmp.props.style.color).b,
     };
     console.log(this.props);
   },
@@ -90,7 +100,7 @@ var PropertiesInspector = React.createClass({
       <ScrollView>
         <View style={{marginTop:15, flex:1}} />
 
-        {this.renderButton()}
+        {this.renderControl()}
           <Text>Selected provicne of Canada: {this.state.canada}</Text>
             <OptionList ref="OPTIONLIST"/>
         <Select
@@ -112,9 +122,35 @@ var PropertiesInspector = React.createClass({
     );
   },
 
-  renderButton() {
-    //console.log(this.props.cmp.props.style.)
-    for (var key of Object.keys(this.props.cmp.props.style)) {
+  renderControl() {
+    var items = this.props.cmp.props;
+    var styleItems = this.props.cmp.props.style;
+    var allProps = _.extend(items, styleItems);
+    var self = this;
+    console.log(allProps);
+    return (
+      <View style={{flex:1}}>
+      {_.map(allProps, function(value,key) {
+        console.log(value);
+        if (key != 'style') {
+          var type = typeForProp[key];
+          switch (type) {
+            case 'text':
+              return self.addTextValueField(key,value, self.props.cmp);
+            case 'color':
+              return self.addColorValueField(key,value, self.props.cmp);
+            case 'number':
+              return self.addNumberValueField(key,value, self.props.cmp);
+            default:
+              return null;
+          }
+        }
+      })
+      }
+      </View>
+    );
+
+    /*for (var key of Object.keys(this.props.cmp.props.style)) {
       console.log("key:" + key + ";value:" + this.props.cmp.props.style[key]);
     }
     return (
@@ -126,6 +162,7 @@ var PropertiesInspector = React.createClass({
         {this.addColorValueField("name","defaultValue")}
       </View>
     );
+    */
   },
 
   renderLabel() {
@@ -141,8 +178,8 @@ var PropertiesInspector = React.createClass({
 
   },
 
-  addTextValueField(name,defaultValue){
-return (<View style={{marginBottom:10,}}>
+  addTextValueField(name,defaultValue) {
+    return (<View style={{marginBottom:10}}>
       <FloatLabelTextInput
         style={styles.textFieldStyle}
         placeHolder={defaultValue}
@@ -151,22 +188,33 @@ return (<View style={{marginBottom:10,}}>
     </View>)
   },
 
-  addColorValueField(name,defaultValue){
+  addColorValueField(name,defaultValue, component){
     var colorL = this._hexFromRGB();
+    console.log(colorL);
+    var _this = this;
+    function updateColor(key) {
+      return function(val) {
+        _this.setState({key: val});
+        let newObj = _.clone(component);
+        newObj.props.style[name] = _this._hexFromRGB();
+        _this.props.dispatch(editComponent(component.id, newObj));
+      }
+    }
+
     return(
       <View>
       <View style={styles.containerForSliders}>
         <Text style={styles.colorLabelStyle}>Red Value: {Math.round(this.state.rValue)}</Text>
-          <SliderIOS onValueChange={(rValue) => this.setState({rValue})}
-              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.rValue} />
+          <SliderIOS onValueChange={updateColor('rValue')}
+            minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.rValue} />
       </View>
       <View style={styles.containerForSliders}>
         <Text style={styles.colorLabelStyle}>Green Value: {Math.round(this.state.gValue)}</Text>
-          <SliderIOS onValueChange={(gValue) => this.setState({gValue})}
+          <SliderIOS onValueChange={updateColor('gValue')}
               minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.gValue}/>
       </View><View style={styles.containerForSliders}>
         <Text style={styles.colorLabelStyle}>Blue Value: {Math.round(this.state.bValue)}</Text>
-          <SliderIOS onValueChange={(bValue) => this.setState({bValue})}
+          <SliderIOS onValueChange={updateColor('bValue')}
               minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.bValue}/>
       </View>
         <View style={{height:50, backgroundColor:colorL}}></View>
