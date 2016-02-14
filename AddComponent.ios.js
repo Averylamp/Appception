@@ -17,7 +17,7 @@ import {connect} from 'react-redux';
 
 import {testAction, createComponent} from './actions';
 
-var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
+var objects = ['LABEL','BUTTON','MAP','TEXT FIELD', 'LIST','PIN'];
 
 var AddComponent = React.createClass({
   getInitialState: function() {
