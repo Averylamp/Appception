@@ -242,9 +242,8 @@ var PropertiesInspector = React.createClass({
      </View>);
   },
 
-  addCallbackValueField(name, defaultValue, options) {
+  addCallbackValueField(path) {
     let opts = _.keys(stringsToCallbacks);
-    console.log(opts);
     return this.addDropDownMenu(path, opts);
   }
 
