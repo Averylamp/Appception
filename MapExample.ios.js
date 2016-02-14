@@ -60,15 +60,16 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-
   buttonContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
-    borderRadius: 10,
+    borderRadius: 20,
+    paddingHorizontal: 20,
     backgroundColor: 'black',
+    overflow: 'hidden', // https://github.com/facebook/react-native/issues/904
     fontSize:35,
     color:'white'
   }
