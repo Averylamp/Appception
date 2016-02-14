@@ -34,6 +34,13 @@ var CanvasView = React.createClass({
     this.props.navigator.push({
       component: AddComponent,
     });
+  },
+
+  droppedOnView(x,y) {
+
+  },
+
+  getViewRect() {
 
   }
 });
@@ -50,7 +57,7 @@ const styles = StyleSheet.create({
   magicButton: {
     position:'absolute',
     right: 50,
-    bottom: 50
+    bottom: 50,
   }
 
 });

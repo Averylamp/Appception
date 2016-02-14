@@ -16,6 +16,8 @@ var AddComponent = require('./AddComponent.ios.js');
 var CanvasView = require('./CanvasView.ios.js');
 import Stateful from './state';
 import {testAction} from './actions';
+var SensorsSample = require('./SensorsSample.ios.js');
+var MapExample = require('./MapExample.ios.js');
 
 var Appception = React.createClass({
 
@@ -23,7 +25,7 @@ var Appception = React.createClass({
     return (
       <Navigator
         ref={(navigator) => {this.navigator = navigator;}}
-        initialRoute={{name: 'Main', index: 0, component: CanvasView}}
+        initialRoute={{name: 'Main', index: 0, component: MapExample}}
         renderScene={this.renderScene}
       />
     );

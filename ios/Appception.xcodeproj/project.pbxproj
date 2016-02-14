@@ -31,6 +31,7 @@
 		AD38D5521C6F68C3008DC66E /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD38D54A1C6F68C3008DC66E /* Octicons.ttf */; };
 		AD38D5531C6F68C3008DC66E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD38D54B1C6F68C3008DC66E /* Zocial.ttf */; };
 		AD38D5671C6F84BD008DC66E /* libRNMotionManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD38D5641C6F84AA008DC66E /* libRNMotionManager.a */; };
+		AD38D56E1C6F8E8E008DC66E /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD38D56D1C6F8E53008DC66E /* libAirMaps.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,13 @@
 			remoteGlobalIDString = BB9CC7F81AE0A2EB008A1D08;
 			remoteInfo = RNMotionManagerTests;
 		};
+		AD38D56C1C6F8E53008DC66E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD38D5681C6F8E52008DC66E /* AirMaps.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 11FA5C511C4A1296003AC2EE;
+			remoteInfo = AirMaps;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -158,6 +166,7 @@
 		AD38D54A1C6F68C3008DC66E /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		AD38D54B1C6F68C3008DC66E /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
 		AD38D55E1C6F84AA008DC66E /* RNMotionManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMotionManager.xcodeproj; path = "../node_modules/react-native-motion-manager/RNMotionManager.xcodeproj"; sourceTree = "<group>"; };
+		AD38D5681C6F8E52008DC66E /* AirMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +181,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD38D56E1C6F8E8E008DC66E /* libAirMaps.a in Frameworks */,
 				AD38D5671C6F84BD008DC66E /* libRNMotionManager.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -295,6 +305,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AD38D5681C6F8E52008DC66E /* AirMaps.xcodeproj */,
 				AD38D55E1C6F84AA008DC66E /* RNMotionManager.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -365,6 +376,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AD38D5691C6F8E52008DC66E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD38D56D1C6F8E53008DC66E /* libAirMaps.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -431,6 +450,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = AD38D5691C6F8E52008DC66E /* Products */;
+					ProjectRef = AD38D5681C6F8E52008DC66E /* AirMaps.xcodeproj */;
+				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
@@ -567,6 +590,13 @@
 			fileType = wrapper.cfbundle;
 			path = RNMotionManagerTests.xctest;
 			remoteRef = AD38D5651C6F84AA008DC66E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD38D56D1C6F8E53008DC66E /* libAirMaps.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAirMaps.a;
+			remoteRef = AD38D56C1C6F8E53008DC66E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
