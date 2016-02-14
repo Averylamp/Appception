@@ -89,26 +89,23 @@ var PropertiesInspector = React.createClass({
     return hex;
   },
   render() {
+    var options = [1,2,3,4];
     return (
       <ScrollView>
         <View style={{marginTop:15, flex:1}} />
+        <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
+
         {this.renderButton()}
-          <Text>Selected provicne of Canada: {this.state.canada}</Text>
+          <Text> Select your action: {this.state.canada}</Text>
             <OptionList ref="OPTIONLIST"/>
         <Select
-            width={250}
             ref="SELECT1"
             optionListRef={this._getOptionList}
-            defaultValue="Select a Province in Canada ..."
+            defaultValue="Select an action ..."
             onSelect={this._canada}>
-            <Option>Alberta</Option>
-            <Option>British Columbia</Option>
-            <Option>Manitoba</Option>
-            <Option>New Brunswick</Option>
-            <Option>Newfoundland and Labrador</Option>
+            {options.map(x => <Option>{x}</Option>)}
           </Select>
 
-        <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
 
       </ScrollView>
 
@@ -208,8 +205,8 @@ const styles = StyleSheet.create({
     borderColor:'white',
   },
   colorTitleStyle: {
-    height:24,
-    fontSize:20,
+    height:22,
+    fontSize:18,
     marginLeft:10,
   },
   colorLabelStyle:{
