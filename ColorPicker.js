@@ -33,12 +33,14 @@ export default class ColorPicker extends Component {
     var sliders = ['red', 'green', 'blue'];
     var rgb = this._hexToRgb(this.props.color);
     return (<View>
+
+      <View style={{height:25, backgroundColor:this.props.color}} />
       {sliders.map(function(v, i) {
         return (
           <View key={i} style={styles.containerForSliders}>
             <Text style={styles.colorLabelStyle}>{v} Value: {Math.round(rgb[v])}</Text>
-            <SliderIOS 
-              onValueChange={_.debounce(this.handleSliderChange.bind(this, v), 100)}
+            <SliderIOS
+              onValueChange={_.debounce(this.handleSliderChange.bind(this, v), 1)}
               minimumValue={0}
               maximumValue={255}
               style={styles.colorSliderStyle}
@@ -48,7 +50,6 @@ export default class ColorPicker extends Component {
           </View>
         );
       }.bind(this))}
-     <View style={{height:50, backgroundColor:this.props.color}} />
     </View>)
   }
 }

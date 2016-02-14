@@ -87,12 +87,9 @@ var AddComponent = React.createClass({
             style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           />
         </View>
-
       </View>
-
     );
   }
-
 });
 
 const styles = StyleSheet.create({
