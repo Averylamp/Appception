@@ -70,7 +70,8 @@ export default class Draggable extends Component {
         <View onLayout={this.setInitialPosition} style={styles.draggableContainer}>
             <Animated.View
                 {...this.panResponder.panHandlers}
-                style={[this.state.pan.getLayout(), styles.circle]}>
+                style={[this.state.pan.getLayout(), styles.circle]}
+                onMoveShouldSetResponderCapture={evt => true}>
                 {this.props.children}
             </Animated.View>
         </View>
