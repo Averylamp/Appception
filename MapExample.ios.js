@@ -10,6 +10,7 @@ import React, {
   Image,
   Text,
   View,
+  Region,
   ListView,
   TouchableHighlight,
   Dimensions
@@ -22,28 +23,39 @@ var MapExample = React.createClass({
     return {
       latitude: 37.78825,
       longitude: -100.4324,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      latitudeDelta: 0.0122,
+      longitudeDelta: 0.0121,
     };
   },
 
   onRegionChange(region) {
-    this.setState({ region });
+    console.log(arguments);
+    // this.setState({ region });
   },
 
   render() {
     return (
       <View style={{flex:1}}>
         <MapView
+          initialRegion={this.state.region}
           style={styles.map}
           region={this.state.region}
-          onRegionChange={this.onRegionChange}
-        />
-        <View style={styles.buttonContainer}>
-          <TouchableHighlight style={styles.centralButton}>
-            <Text style={styles.text}>ASDFDD</Text>
-          </TouchableHighlight>
-        </View>
+          onRegionChange={this.onRegionChange}>
+          <MapView.Marker
+              key={10}
+              coordinate={{
+                latitude: 37.78825,
+                longitude: -100.4324
+              }}
+              pinColor="#ff0000"
+            >
+            <MapView.Callout style={styles.buttonContainer} tooltip>
+                <TouchableHighlight style={styles.centralButton}>
+                  <Text style={styles.text}>ASDFDD</Text>
+                </TouchableHighlight>
+            </MapView.Callout>            
+          </MapView.Marker>
+        </MapView>
       </View>
     );
   }
