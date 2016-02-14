@@ -64,15 +64,15 @@ var MessageExample = React.createClass({
 			}
 		);
 	},
-
   render() {
     return (
       <View style={{flex:1}}>
-        <View style={styles.buttonContainer}>
-          <TouchableHighlight onPress={this._onPressButton} style={styles.centralButton}>
-            <Text style={styles.text}>Send Message</Text>
-          </TouchableHighlight>
-        </View>
+      	<View style={styles.buttonContainer}>
+	      <Button
+	      	highlightProps={{onPress: this._onPressButton, style: styles.centralButton}}
+	      	textProps={{style: styles.text, text: 'Message a friend!'}}
+	  	  />
+	  	</View>
       </View>
     );
   }

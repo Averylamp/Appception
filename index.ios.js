@@ -13,7 +13,8 @@ import React, {
 } from 'react-native';
 
 var AddComponent = require('./AddComponent.ios.js');
-var CanvasView = require('./MessageExample.ios.js');
+var CanvasView = require('./CanvasView.ios.js');
+var MessagingExample = require('./MessageExample.ios.js');
 var PropertiesInspector = require('./PropertiesInspector.js');
 import Stateful from './state';
 import {testAction} from './actions';
