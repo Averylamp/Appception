@@ -136,7 +136,7 @@ var PropertiesInspector = React.createClass({
             case 'callback':
               return self.addCallbackValueField(path.keys);
             case 'boolean':
-              return self.addSwitchValueField(key, value, self.props.cmp, key);
+              return self.addSwitchValueField(path.keys, self.props.cmp);
             default:
               return null;
           }
@@ -146,12 +146,13 @@ var PropertiesInspector = React.createClass({
   },
 
   addTextValueField(path, defaultValue) {
+    let name = _.last(path);
     let id = _.uniqueId('textfield');
     return (<View key={_.uniqueId('key')} style={{marginBottom:10}}>
       <FloatLabelTextInput
         ref={id}
         style={styles.textFieldStyle}
-        placeHolder={"I AM A placeHolder"}
+        placeHolder={name}
         value={this.getValueFromObject(path)}
         onBlur={function() {
           this.onChange(path, this.refs[id].state.text);
@@ -161,9 +162,11 @@ var PropertiesInspector = React.createClass({
     </View>)
   },
 
-  addSwitchValueField(name, defaultValue, component, key) {
+  addSwitchValueField(path, component, defaultValue) {
 
-    //TODO
+    let name = _.last(path);
+    let val = this.getValueFromObject(path);
+
     function onChange(val) {
       let newObj = _.clone(component);
       newObj.props[name] = val;
@@ -172,9 +175,9 @@ var PropertiesInspector = React.createClass({
     }
 
     return (
-      <View key={key} style={styles.numberPickerContainer}>
+      <View key={_.uniqueId('key')} style={styles.numberPickerContainer}>
         <Text style={styles.numberPickerText}>{name}</Text>
-        <Switch style={styles.numberPickerSegment} value={defaultValue}
+        <Switch style={styles.numberPickerSegment} value={val}
          onValueChange={onChange.bind(this)}/>
       </View>
     );
@@ -254,15 +257,18 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     marginRight:20,
     marginTop:6,
+    flex:1,
   },
   numberPickerSegment:{
     flexDirection:'row',
-
+    alignItems: 'flex-end',
+    marginRight: 10,
   },
   numberPickerContainer:{
     flexDirection:'row',
     marginBottom:10,
     marginTop:5,
+    flex:1,
   },
 
   doneButton:{
