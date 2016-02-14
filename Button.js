@@ -10,7 +10,7 @@ export default class Button extends Component {
 		let {highlightProps, textProps, ...other} = this.props;
 		return (
 		    <TouchableHighlight  {...highlightProps}>
-		      <Text {...textProps} />
+		      <Text {...textProps}>{textProps.text}</Text>
 		    </TouchableHighlight>
 		);
 	}

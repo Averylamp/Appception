@@ -25,7 +25,7 @@ var Appception = React.createClass({
     return (
       <Navigator
         ref={(navigator) => {this.navigator = navigator;}}
-        initialRoute={{name: 'Main', index: 0, component: MapExample}}
+        initialRoute={{name: 'Main', index: 0, component: CanvasView}}
         renderScene={this.renderScene}
       />
     );
