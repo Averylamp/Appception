@@ -46,7 +46,7 @@ export default class Draggable extends Component {
     if (!this.props.showDraggable) return;
     return (
         <View style={styles.draggableContainer}>
-            <Animated.View 
+            <Animated.View
                 {...this.panResponder.panHandlers}
                 style={[this.state.pan.getLayout(), styles.circle]}>
                 {this.props.children}

@@ -11,6 +11,8 @@ import React, {
   TouchableHighlight,
   Navigator,
   SliderIOS,
+  ScrollView,
+  Dimensions,
 } from 'react-native';
 
 
@@ -29,11 +31,11 @@ const {
   updatePosition
 } = DropDown;
 
-
+let Window = Dimensions.get('window');
 var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
 
 var PropertiesInspector = React.createClass({
-  
+
   getInitialState: function() {
     console.log(this.props.cmp.props.style.color);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -41,9 +43,9 @@ var PropertiesInspector = React.createClass({
       dataSource: ds.cloneWithRows(objects),
       vcOptions: ['View 1','View 2'],
       canada: '',
-      rValue:100,
-      gValue:100,
-      bValue:100,
+      //rValue:this._hexToRgb(this.props.cmp.props.style.color).r,
+      //gValue:this._hexToRgb(this.props.cmp.props.style.color).g,
+      //bValue:this._hexToRgb(this.props.cmp.props.style.color).b,
     };
     console.log(this.props);
   },
@@ -52,7 +54,9 @@ var PropertiesInspector = React.createClass({
    updatePosition(this.refs['SELECT1']);
    updatePosition(this.refs['OPTIONLIST']);
  },
-
+ _save() {
+   this.props.dispatch(actions.editComponent(this.props.cmp.newObj))
+ },
   _getOptionList() {
     return this.refs['OPTIONLIST'];
   },
@@ -64,10 +68,17 @@ var PropertiesInspector = React.createClass({
       canada: province
     });
   },
+  _hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+},
   _hexFromRGB() {
     var hex = '#'
     hex = hex + ('0'+ Math.round(this.state.rValue).toString(16)).slice(-2);
-    console.log(hex);
     hex = hex + ('0'+ Math.round(this.state.gValue).toString(16)).slice(-2);
     hex = hex + ('0'+ Math.round(this.state.bValue).toString(16)).slice(-2)
     return hex;
@@ -75,32 +86,13 @@ var PropertiesInspector = React.createClass({
 
   render() {
 
-    var colorL = this._hexFromRGB();
     return (
-      <View>
-        <View style={{marginTop:30,marginBottom:10,}}>
-          <FloatLabelTextInput
-            style={styles.textFieldStyle}
-            placeHolder={"Text"}
-            value={"Hello"}
-          />
-        </View>
+      <ScrollView>
+        <View style={{marginTop:15, flex:1}} />
 
-        <View style={styles.containerForSliders}>
-          <Text style={styles.colorLabelStyle}>Red Value: {Math.round(this.state.rValue)}</Text>
-            <SliderIOS onValueChange={(rValue) => this.setState({rValue})}
-                minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} />
-        </View>
-        <View style={styles.containerForSliders}>
-          <Text style={styles.colorLabelStyle}>Green Value: {Math.round(this.state.gValue)}</Text>
-            <SliderIOS onValueChange={(gValue) => this.setState({gValue})}
-                minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} />
-        </View><View style={styles.containerForSliders}>
-          <Text style={styles.colorLabelStyle}>Blue Value: {Math.round(this.state.bValue)}</Text>
-            <SliderIOS onValueChange={(bValue) => this.setState({bValue})}
-                minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} />
-        </View>
-          <View style={{height:100, backgroundColor:colorL}}></View>
+        {this.renderButton()}
+          <Text>Selected provicne of Canada: {this.state.canada}</Text>
+            <OptionList ref="OPTIONLIST"/>
         <Select
             width={250}
             ref="SELECT1"
@@ -112,22 +104,76 @@ var PropertiesInspector = React.createClass({
             <Option>Manitoba</Option>
             <Option>New Brunswick</Option>
             <Option>Newfoundland and Labrador</Option>
-            <Option>Northwest Territories</Option>
-            <Option>Nova Scotia</Option>
-            <Option>Nunavut</Option>
-            <Option>Ontario</Option>
-            <Option>Prince Edward Island</Option>
-            <Option>Quebec</Option>
-            <Option>Saskatchewan</Option>
-            <Option>Yukon</Option>
           </Select>
-          <Text>Selected provicne of Canada: {this.state.canada}</Text>
-            <OptionList ref="OPTIONLIST"/>
 
-      </View>
+
+      </ScrollView>
 
     );
-  }
+  },
+
+  renderButton() {
+    //console.log(this.props.cmp.props.style.)
+    for (var key of Object.keys(this.props.cmp.props.style)) {
+      console.log("key:" + key + ";value:" + this.props.cmp.props.style[key]);
+    }
+    return (
+      <View style={{flex:1,}}>
+        {this.addTextValueField("hello","Button Title")}
+        {this.addColorValueField("name","defaultValue")}
+        {this.addColorValueField("name","defaultValue")}
+        {this.addColorValueField("name","defaultValue")}
+        {this.addColorValueField("name","defaultValue")}
+      </View>
+    );
+  },
+
+  renderLabel() {
+    return (
+      <View>
+        {this.addTextValueField("hello","Button Title")}
+
+      </View>
+    );
+  },
+
+  renderMap(){
+
+  },
+
+  addTextValueField(name,defaultValue){
+return (<View style={{marginBottom:10,}}>
+      <FloatLabelTextInput
+        style={styles.textFieldStyle}
+        placeHolder={defaultValue}
+        value={name}
+      />
+    </View>)
+  },
+
+  addColorValueField(name,defaultValue){
+    var colorL = this._hexFromRGB();
+    return(
+      <View>
+      <View style={styles.containerForSliders}>
+        <Text style={styles.colorLabelStyle}>Red Value: {Math.round(this.state.rValue)}</Text>
+          <SliderIOS onValueChange={(rValue) => this.setState({rValue})}
+              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.rValue} />
+      </View>
+      <View style={styles.containerForSliders}>
+        <Text style={styles.colorLabelStyle}>Green Value: {Math.round(this.state.gValue)}</Text>
+          <SliderIOS onValueChange={(gValue) => this.setState({gValue})}
+              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.gValue}/>
+      </View><View style={styles.containerForSliders}>
+        <Text style={styles.colorLabelStyle}>Blue Value: {Math.round(this.state.bValue)}</Text>
+          <SliderIOS onValueChange={(bValue) => this.setState({bValue})}
+              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.bValue}/>
+      </View>
+        <View style={{height:50, backgroundColor:colorL}}></View>
+      </View>
+    )
+  },
+
 
 });
 
