@@ -37,7 +37,6 @@ var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
 var PropertiesInspector = React.createClass({
 
   getInitialState: function() {
-    console.log(this.props.cmp.props.style.color);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
       dataSource: ds.cloneWithRows(objects),
@@ -114,9 +113,9 @@ var PropertiesInspector = React.createClass({
 
   renderButton() {
     //console.log(this.props.cmp.props.style.)
-    for (var key of Object.keys(this.props.cmp.props.style)) {
-      console.log("key:" + key + ";value:" + this.props.cmp.props.style[key]);
-    }
+    // for (var key of Object.keys(this.props.cmp.props.style)) {
+    //   console.log("key:" + key + ";value:" + this.props.cmp.props.style[key]);
+    // }
     return (
       <View style={{flex:1,}}>
         {this.addTextValueField("hello","Button Title")}

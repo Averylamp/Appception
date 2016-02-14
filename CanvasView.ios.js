@@ -9,6 +9,7 @@ import React, {
   StyleSheet,
   Image,
   Text,
+  Dimensions,
   Button,
   View,
   ListView,
@@ -26,15 +27,26 @@ import {connect} from 'react-redux';
 import ComponentMap from './ComponentMap';
 
 
+let CIRCLE_RADIUS = 50;
+let Window = Dimensions.get('window');
+
+const initialPosition = {
+    position    : 'absolute',
+    top         : Window.height - CIRCLE_RADIUS * 2,
+    left        : Window.width - CIRCLE_RADIUS * 2,
+};
+
 var CanvasView = React.createClass({
   componentDidMount() {
     this.dropzones = [];
   },
   handleDropped(cmp) {
-    this.props.navigator.push({
-      component: PropertiesInspector,
-      passProps: {cmp}
-    });
+    if (cmp) {
+      this.props.navigator.push({
+        component: PropertiesInspector,
+        passProps: {cmp}
+      });
+    }
   },
   gotoAddView() {
     this.props.navigator.push({
@@ -48,16 +60,24 @@ var CanvasView = React.createClass({
     let children = this.props.components.map(function(x, i) {
     let Component = ComponentMap[x.componentType];
     if (x.componentType === 'LABEL') {
+      let refName = 'droppable' + x.id;
+      function recalc() {
+        _this.refs[refName].recalculate();
+      }
       return (
-        <Droppable key={i} ref={'droppable' + x.id}>
-          <Component {...x.props} >WHAT UP</Component>
-        </Droppable>
+        <Draggable onDropped={recalc} key={i}>
+          <Droppable ref={refName}>
+            <Component {...x.props} >WHAT UP</Component>
+          </Droppable>
+        </Draggable>
       );
     } else {
       return (
-        <Droppable key={i} ref={'droppable' + x.id}>
-          <Component {...x.props} key={i}/>
-        </Droppable>
+        <Draggable key={i}>
+          <Droppable ref={refName}>
+            <Component {...x.props} key={i}/>
+          </Droppable>
+        </Draggable>
       );
     }
 
@@ -83,7 +103,7 @@ var CanvasView = React.createClass({
     return (
       <View style={styles.container}>
         {children}
-        <Draggable onClick={this.gotoAddView} findDropZone={findDropZone.bind(this)} onDropped={this.handleDropped}>
+        <Draggable sticky initialPosition={initialPosition} onClick={this.gotoAddView} findDropZone={findDropZone.bind(this)} onDropped={this.handleDropped}>
             <Icon name="dot-circle-o" size={70} color="#900" />
         </Draggable>
       </View>
