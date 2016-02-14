@@ -22,6 +22,7 @@ import {connect} from 'react-redux';
 let AdaptedText = AppceptionAdapter(Text);
 import AppceptionAdapter from './AppceptionAdapter';
 var FloatLabelTextInput = require('react-native-floating-label-text-input');
+var Spinner = require('rn-spinner');
 import Stateful from './state';
 import {editComponent} from './actions';
 const DropDown = require('react-native-dropdown');
@@ -47,7 +48,6 @@ var typeForProp = {
 var PropertiesInspector = React.createClass({
 
   getInitialState: function() {
-    console.log(this.props.cmp.props.style.color);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
       dataSource: ds.cloneWithRows(objects),
@@ -65,7 +65,7 @@ var PropertiesInspector = React.createClass({
    updatePosition(this.refs['OPTIONLIST']);
  },
  _save() {
-   this.props.dispatch(actions.editComponent(this.props.cmp.newObj))
+  this.props.navigator.pop();
  },
   _getOptionList() {
     return this.refs['OPTIONLIST'];
@@ -93,27 +93,22 @@ var PropertiesInspector = React.createClass({
     hex = hex + ('0'+ Math.round(this.state.bValue).toString(16)).slice(-2)
     return hex;
   },
-
   render() {
-
+    var options = [1,2,3,4];
     return (
       <ScrollView>
         <View style={{marginTop:15, flex:1}} />
+        <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
 
         {this.renderControl()}
           <Text>Selected provicne of Canada: {this.state.canada}</Text>
             <OptionList ref="OPTIONLIST"/>
         <Select
-            width={250}
             ref="SELECT1"
             optionListRef={this._getOptionList}
-            defaultValue="Select a Province in Canada ..."
+            defaultValue="Select an action ..."
             onSelect={this._canada}>
-            <Option>Alberta</Option>
-            <Option>British Columbia</Option>
-            <Option>Manitoba</Option>
-            <Option>New Brunswick</Option>
-            <Option>Newfoundland and Labrador</Option>
+            {options.map(x => <Option>{x}</Option>)}
           </Select>
 
 
@@ -149,33 +144,6 @@ var PropertiesInspector = React.createClass({
       }
       </View>
     );
-
-    /*for (var key of Object.keys(this.props.cmp.props.style)) {
-      console.log("key:" + key + ";value:" + this.props.cmp.props.style[key]);
-    }
-    return (
-      <View style={{flex:1,}}>
-        {this.addTextValueField("hello","Button Title")}
-        {this.addColorValueField("name","defaultValue")}
-        {this.addColorValueField("name","defaultValue")}
-        {this.addColorValueField("name","defaultValue")}
-        {this.addColorValueField("name","defaultValue")}
-      </View>
-    );
-    */
-  },
-
-  renderLabel() {
-    return (
-      <View>
-        {this.addTextValueField("hello","Button Title")}
-
-      </View>
-    );
-  },
-
-  renderMap(){
-
   },
 
   addTextValueField(name,defaultValue) {
@@ -184,13 +152,13 @@ var PropertiesInspector = React.createClass({
         style={styles.textFieldStyle}
         placeHolder={defaultValue}
         value={name}
+        noBorder
       />
     </View>)
   },
 
   addColorValueField(name,defaultValue, component){
     var colorL = this._hexFromRGB();
-    console.log(colorL);
     var _this = this;
     function updateColor(key) {
       return function(val) {
@@ -206,21 +174,35 @@ var PropertiesInspector = React.createClass({
       <View style={styles.containerForSliders}>
         <Text style={styles.colorLabelStyle}>Red Value: {Math.round(this.state.rValue)}</Text>
           <SliderIOS onValueChange={updateColor('rValue')}
-            minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.rValue} />
+            minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} minimumTrackTintColor='red' value={this.state.rValue} />
       </View>
       <View style={styles.containerForSliders}>
         <Text style={styles.colorLabelStyle}>Green Value: {Math.round(this.state.gValue)}</Text>
           <SliderIOS onValueChange={updateColor('gValue')}
-              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.gValue}/>
+              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} minimumTrackTintColor='green' value={this.state.gValue}/>
       </View><View style={styles.containerForSliders}>
         <Text style={styles.colorLabelStyle}>Blue Value: {Math.round(this.state.bValue)}</Text>
           <SliderIOS onValueChange={updateColor('bValue')}
-              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.bValue}/>
+              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} minimumTrackTintColor='blue' value={this.state.bValue}/>
       </View>
         <View style={{height:50, backgroundColor:colorL}}></View>
       </View>
     )
   },
+
+  addNumberValueField(name, defaultValue){
+    return(
+      <View style={styles.numberPickerContainer}>
+        <Text style={styles.numberPickerText}>{name}</Text>
+        <Spinner styles={styles.numberPickerSegment} max={300}
+         min={0}
+         default={defaultValue}
+         color="#f60"
+         numColor="#f60"
+         onNumChange={(num)=>{console.log(num)}}/>
+       </View>
+    )
+  }
 
 
 });
@@ -238,8 +220,15 @@ const styles = StyleSheet.create({
     borderBottomWidth:0,
     borderColor:'white',
   },
+  colorTitleStyle: {
+    height:22,
+    fontSize:18,
+    marginLeft:10,
+  },
   colorLabelStyle:{
     flex:1,
+    marginLeft:20,
+    marginTop:13,
     flexDirection:'row',
   },
   colorSliderStyle:{
@@ -250,6 +239,39 @@ const styles = StyleSheet.create({
   },
   containerForSliders: {
     flexDirection:'row',
+  },
+  numberPickerText:{
+    marginLeft:20,
+    flexDirection:'row',
+    marginRight:20,
+    marginTop:6,
+  },
+  numberPickerSegment:{
+    flexDirection:'row',
+
+  },
+  numberPickerContainer:{
+    flexDirection:'row',
+    marginBottom:10,
+    marginTop:5,
+  },
+  doneButton:{
+    alignItems:'center',
+    margin: 15,
+    marginLeft:30,
+    marginRight:30,
+    backgroundColor:'#77c588',
+    height:60,
+    borderRadius:10,
+    shadowOpacity:0.2,
+    shadowOffset:{
+      x:2,
+      y:2
+    }
+  },
+  doneText: {
+    fontSize:24,
+    marginTop:12,
   }
 });
 
