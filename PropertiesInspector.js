@@ -1,4 +1,3 @@
-'use strict';
 import React, {
   AppRegistry,
   Component,
@@ -81,7 +80,6 @@ var PropertiesInspector = React.createClass({
       <ScrollView>
         <View style={{marginTop:15, flex:1}} />
         <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
-
         {this.renderControl()}
           <Text>Selected provicne of Canada: {this.state.canada}</Text>
             <OptionList ref="OPTIONLIST"/>
@@ -92,10 +90,7 @@ var PropertiesInspector = React.createClass({
             onSelect={this._canada}>
             {options.map((x, i) => <Option key={i}>{(x.toString())}</Option>)}
           </Select>
-
-
       </ScrollView>
-
     );
   },
 
@@ -121,7 +116,7 @@ var PropertiesInspector = React.createClass({
           }
         }
       })
-      }
+    }
       </View>
     );
   },
@@ -163,6 +158,19 @@ var PropertiesInspector = React.createClass({
          onNumChange={(num)=>{console.log(num)}}/>
        </View>
     )
+  },
+  addDropDownMenu(name, defaultValue, options){
+    return(<View>
+      <Text > Select your action: {this.state.canada}</Text>
+        <OptionList ref="OPTIONLIST"/>
+      <Select
+        ref="SELECT1"
+        optionListRef={this._getOptionList}
+        defaultValue="Select an action ..."
+        onSelect={this._canada}>
+        {options.map(x => <Option>{x}</Option>)}
+      </Select>
+    </View>)
   }
 
 
