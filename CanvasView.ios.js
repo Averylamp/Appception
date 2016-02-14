@@ -60,28 +60,21 @@ var CanvasView = React.createClass({
     let children = this.props.components.map(function(x, i) {
       let Component = ComponentMap[x.componentType];
       let refName = 'droppable' + x.id;
-      if (x.componentType === 'LABEL') {
-        function recalc() {
-          _this.refs[refName].recalculate();
-        }
-
-        let style = _.clone(x.props.style);
-        return (
-          <Draggable onDropped={recalc} key={i}>
-            <Droppable ref={refName}>
-              <Component {...x.props} style={style} >What's up</Component>
-            </Droppable>
-          </Draggable>
-        );
-      } else {
-        return (
-          <Draggable key={i}>
-            <Droppable ref={refName}>
-              <Component {...x.props} key={i}/>
-            </Droppable>
-          </Draggable>
-        );
+      function recalc() {
+        _this.refs[refName].recalculate();
       }
+      let style = _.clone(x.props.style);
+      return (
+        <Draggable onDropped={recalc} key={i}>
+          <Droppable ref={refName}>
+            {
+              x.componentType === 'LABEL' ? 
+                <Component {...x.props} style={style} >What's up</Component> :
+                <Component {...x.props} style={style} />
+            }
+          </Droppable>
+        </Draggable>
+      );
   });
 
     return children;
