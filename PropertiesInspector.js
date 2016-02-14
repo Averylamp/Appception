@@ -86,7 +86,6 @@ var PropertiesInspector = React.createClass({
   },
 
   renderControl() {
-    console.log(this.props.cmp.props);
     var items = this.props.cmp.props;
     var styleItems = this.props.cmp.props.style;
     var allProps = _.extend({}, items, styleItems);

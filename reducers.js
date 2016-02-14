@@ -23,7 +23,7 @@ export function thingus(state, action) {
 // }
 
 export function components(state, action) {
-	state = _.clone(state) || [];
+	state = _.cloneDeep(state) || [];
 	switch(action.type) {
 		case CREATE_COMPONENT:
 			let newComponent = {componentType: action.componentType, id: _.uniqueId('cmp'), props: action.props || getDefaults(action.componentType)};
