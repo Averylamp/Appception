@@ -69,8 +69,8 @@ var AddComponent = React.createClass({
             >
           </SegmentedControls>
           </View>
-          <TouchableHighlight style={styles.addSegmentButton} onPress={() => this._addSegment()}>
-              <Text style={{fontSize:20, backgroundColor:'#77c588',marginRight:10, marginLeft:10, marginRight: 25, color:'white', borderRadius:10}}> + </Text>
+          <TouchableHighlight style={styles.addSegmentButton} underlayColor='white' onPress={() => this._addSegment()}>
+              <Text style={{fontSize:20, backgroundColor:'#77c588', color:'white'}}> + </Text>
           </TouchableHighlight>
         </View>
 
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
   },
   addSegmentButton: {
     flex:1,
-
-    //flexDirection:'row',
+    marginRight: 25,
+    marginTop: 2,
     alignItems:"flex-end",
   },
   doneButton:{

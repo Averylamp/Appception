@@ -3,38 +3,49 @@ var {
   VibrationIOS
 } = React;
 
-const DEFAULT_FG_COLOR = '#2FC3DA'
-const DEFAULT_BG_COLOR = '#292249';
 
+const DEFAULT_FG_COLOR = '#d6eff9'
+const DEFAULT_BG_COLOR = '#35ace5';
+const DEFAULT_BG_COLOR2 = '#154160'; 
+const DEFAULT_FG_COLOR2 = '#d8f0fb';
 
 export const LabelDefaults = {
 	style: {
 		color: DEFAULT_FG_COLOR,
-		fontSize: 30,
-		padding: 20,
+		fontSize: 20,
+		padding: 15,
+		fontWeight: 'bold',
 		textAlign: 'center',
 		textAlignVertical: 'center',
 		backgroundColor: DEFAULT_BG_COLOR,
 		overflow: 'hidden',
-		borderRadius: 20,
-		borderWidth: 10,
-		borderColor: '#111111'
+		borderRadius: 10,
+		borderWidth: 0,
+		borderColor: DEFAULT_BG_COLOR
 	}
 };
 
 export const ButtonDefaults = {
 	highlightProps: {
 		onPress: x => VibrationIOS.vibrate(),
-		underlayColor: DEFAULT_FG_COLOR,
+		underlayColor: DEFAULT_FG_COLOR2,
 		style: {
 			backgroundColor: DEFAULT_BG_COLOR,
+			borderRadius: 10,
+			overflow: 'hidden'
 		}
 	},
 	textProps: {
-		backgroundColor: DEFAULT_FG_COLOR,
+		backgroundColor: DEFAULT_FG_COLOR2,
 		text: "I'm a button",
 		style: {
 			backgroundColor: DEFAULT_BG_COLOR,
+			fontSize: 20,
+			padding: 15,
+			fontWeight: 'bold',
+			textAlign: 'center',
+			textAlignVertical: 'center',
+			color: '#ffffff'
 		}
 	}
 };
