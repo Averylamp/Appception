@@ -81,20 +81,13 @@ var PropertiesInspector = React.createClass({
         <View style={{marginTop:15, flex:1}} />
         <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
         {this.renderControl()}
-          <Text>Selected provicne of Canada: {this.state.canada}</Text>
-            <OptionList ref="OPTIONLIST"/>
-        <Select
-            ref="SELECT1"
-            optionListRef={this._getOptionList}
-            defaultValue="Select an action ..."
-            onSelect={this._canada}>
-            {options.map((x, i) => <Option key={i}>{(x.toString())}</Option>)}
-          </Select>
+          {this.addDropDownMenu('asdf','nothing',['asdf','aaa','dfs','hgasd','asdf'])}
       </ScrollView>
     );
   },
 
   renderControl() {
+    console.log(this.props.cmp.props);
     var items = this.props.cmp.props;
     var styleItems = this.props.cmp.props.style;
     var allProps = _.extend(items, styleItems);
