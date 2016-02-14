@@ -73,22 +73,9 @@ var AddComponent = React.createClass({
         dataSource={this.state.dataSource}
         renderRow={(rowData) => <TouchableHighlight onPress={this.handlePress.bind(this, rowData)}style={styles.buttonStyle}><Text style={styles.buttonTextStyle}>{rowData}</Text></TouchableHighlight>}
         />
-        <Text>{this.props.thingus}</Text>
-
-        <Text style={{color: this.props.color}}>
-        Input a hex color for me: {this.props.color}
-        </Text>
-        <TextInput
-          value={this.props.color}
-          onChangeText={this.handleComponentChange.bind(this, 'color')}
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-       />
-
       </View>
-
     );
   }
-
 });
 
 const styles = StyleSheet.create({
