@@ -33,14 +33,25 @@ export default class Draggable extends Component {
       		  let cmp = this.props.findDropZone(gesture);
             this.props.onDropped(cmp);
 
-            if (!cmp && this.props.sticky) {
+
+            if (this.props.sticky) {
                 Animated.spring(
                     this.state.pan,
                     {toValue:{x:0, y:0}}
                 ).start();
+            } else {
+              this.state.pan.setOffset({x: this.currentPanValue.x, y: this.currentPanValue.y});
+              this.state.pan.setValue({x: 0, y: 0});              
             }
           }
       });
+  }
+  componentDidMount() {
+    this.currentPanValue = {x: 0, y: 0};
+    this.panListener = this.state.pan.addListener((value) => this.currentPanValue = value);
+  }
+  componentWillUnmount() {
+    this.state.pan.removeListener(this.panListener);
   }
   setInitialPosition(event) {
     if (!this.initialPosition) {

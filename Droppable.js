@@ -21,8 +21,8 @@ export default class Droppable extends Component {
   render() {
     return (
         <View
+          onLayout={this.recalculate.bind(this)}
           ref="view"
-          onLayout={this.setDropZoneValues.bind(this)}
           style={this.props.styles}
         >
         {this.props.children}
@@ -33,11 +33,6 @@ export default class Droppable extends Component {
     this.refs.view.measure((ox, oy, width, height, x, y) =>
       this.setState({dropZoneValues: {x, y, width, height}})
     );
-  }
-  setDropZoneValues(event) {
-    let dropZoneValues = event.nativeEvent.layout;
-    console.log('dropZoneValues');
-    this.setState({dropZoneValues});
   }
 }
 
