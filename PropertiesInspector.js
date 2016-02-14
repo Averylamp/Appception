@@ -124,7 +124,6 @@ var PropertiesInspector = React.createClass({
         <View style={{marginTop:15, flex:1}} />
         <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
         {this.renderControl()}
-        {this.addDropDownMenu('asdf',['asdf','aaa','dfs','hgasd','asdf'])}
       </ScrollView>
     );
   },
