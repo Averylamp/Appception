@@ -10,8 +10,19 @@ export function thingus(state, action) {
 	}
 }
 
+// {
+// 	componentType: "LABEL",
+//  	id: _.uniqueId('cmp'),
+//  	props: {
+//  		style: {
+//  			color: 'red',
+//  			fontSize: 20
+// 		}
+// 	}
+// }
+
 export function components(state, action) {
-	state = _.clone(state) || [{componentType: "LABEL", id: _.uniqueId('cmp')}];
+	state = _.clone(state) || [{componentType: "LABEL", id: _.uniqueId('cmp'), props: {style: {color: 'red'}}}];
 	switch(action.type) {
 		case CREATE_COMPONENT:
 			state.push({componentType: action.componentType, id: _.uniqueId('cmp')});

@@ -33,9 +33,9 @@ const {
 var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
 
 var PropertiesInspector = React.createClass({
-
+  
   getInitialState: function() {
-
+    console.log(this.props.cmp.props.style.color);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
       dataSource: ds.cloneWithRows(objects),
