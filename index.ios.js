@@ -13,7 +13,7 @@ import React, {
 } from 'react-native';
 
 var AddComponent = require('./AddComponent.ios.js');
-var CanvasView = require('./CanvasView.ios.js');
+var CanvasView = require('./MessageExample.ios.js');
 import Stateful from './state';
 import {testAction} from './actions';
 var SensorsSample = require('./SensorsSample.ios.js');
@@ -25,7 +25,7 @@ var Appception = React.createClass({
     return (
       <Navigator
         ref={(navigator) => {this.navigator = navigator;}}
-        initialRoute={{name: 'Main', index: 0, component: MapExample}}
+        initialRoute={{name: 'Main', index: 0, component: CanvasView}}
         renderScene={this.renderScene}
       />
     );
