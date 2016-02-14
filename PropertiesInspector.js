@@ -107,15 +107,12 @@ var PropertiesInspector = React.createClass({
   },
 
   componentDidMount() {
-   updatePosition(this.refs['SELECT1']);
-   updatePosition(this.refs['OPTIONLIST']);
+   // updatePosition(this.refs['SELECT1']);
+   // updatePosition(this.refs['OPTIONLIST']);
  },
  _save() {
   this.props.navigator.pop();
  },
-  _getOptionList() {
-    return this.refs['OPTIONLIST'];
-  },
   render() {
     var options = [1,2,3,4];
 
@@ -124,7 +121,6 @@ var PropertiesInspector = React.createClass({
         <View style={{marginTop:15, flex:1}} />
         <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
         {this.renderControl()}
-        {this.addDropDownMenu('asdf',['asdf','aaa','dfs','hgasd','asdf'])}
       </ScrollView>
     );
   },
