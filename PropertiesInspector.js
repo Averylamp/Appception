@@ -42,7 +42,11 @@ var typeForProp = {
   'borderColor': 'color',
   'borderWidth': 'number',
   'borderRadius': 'number',
-  onPress: 'callback'
+  'onPress': 'callback',
+  'fontSize': 'number',
+  'height': 'number',
+  'width': 'number',
+  'value': 'text',
 };
 
 var PropertiesInspector = React.createClass({
@@ -106,6 +110,7 @@ var PropertiesInspector = React.createClass({
             case 'callback':
               return self.addCallbackValueField(key, value, self.props.cmp, key);
             default:
+              console.log(key + "IS MISSING FROM TypeForProps");
               return null;
           }
         }
@@ -182,7 +187,7 @@ var PropertiesInspector = React.createClass({
           defaultValue="Select an action ..."
           onSelect={this._canada}>
           {options.map((x,i) => <Option key={i}>{x}</Option>)}
-        </Select> 
+        </Select>
       </View>
     )
   }

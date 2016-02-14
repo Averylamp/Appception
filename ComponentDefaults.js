@@ -68,8 +68,9 @@ export const TextDefaults = {
 		borderColor: 'ff0000',
 		borderRadius: 2,
 		color: '#000000',
-		backgroundColor: "red"
-	}
+		backgroundColor: '#ff0000'
+	},
+	value: 'hat'
 };
 
 
