@@ -246,11 +246,15 @@ const styles = StyleSheet.create({
     height: 100,
     borderBottomWidth:0,
     borderColor:'white',
+    fontWeight: 'bold',
+    fontFamily: 'Arial'
   },
   colorTitleStyle: {
     height:22,
     fontSize:18,
     marginLeft:10,
+    fontWeight: 'bold',
+    fontFamily: 'Arial'
   },
   numberPickerText:{
     marginLeft:20,
@@ -269,13 +273,14 @@ const styles = StyleSheet.create({
     marginBottom:10,
     marginTop:5,
     flex:1,
+    marginRight: 20
   },
 
   doneButton:{
     alignItems:'center',
     margin: 15,
-    marginLeft:30,
-    marginRight:30,
+    marginLeft:20,
+    marginRight:20,
     backgroundColor:'#77c588',
     height:60,
     borderRadius:10,
@@ -288,6 +293,8 @@ const styles = StyleSheet.create({
   doneText: {
     fontSize:24,
     marginTop:12,
+    fontWeight: 'bold',
+    fontFamily: 'Arial'
   }
 });
 
