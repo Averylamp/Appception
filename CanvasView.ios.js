@@ -64,10 +64,12 @@ var CanvasView = React.createClass({
         function recalc() {
           _this.refs[refName].recalculate();
         }
+
+        let style = _.clone(x.props.style);
         return (
           <Draggable onDropped={recalc} key={i}>
             <Droppable ref={refName}>
-              <Component {...x.props} >WHAT UP</Component>
+              <Component {...x.props} style={style} >What's up</Component>
             </Droppable>
           </Draggable>
         );

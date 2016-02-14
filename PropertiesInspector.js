@@ -21,6 +21,7 @@ import { SegmentedControls } from 'react-native-radio-buttons';
 import {connect} from 'react-redux';
 let AdaptedText = AppceptionAdapter(Text);
 import AppceptionAdapter from './AppceptionAdapter';
+import ColorPicker from './ColorPicker';
 var FloatLabelTextInput = require('react-native-floating-label-text-input');
 var Spinner = require('rn-spinner');
 import Stateful from './state';
@@ -53,9 +54,6 @@ var PropertiesInspector = React.createClass({
       dataSource: ds.cloneWithRows(objects),
       vcOptions: ['View 1','View 2'],
       canada: '',
-      rValue:this._hexToRgb(this.props.cmp.props.style.color).r,
-      gValue:this._hexToRgb(this.props.cmp.props.style.color).g,
-      bValue:this._hexToRgb(this.props.cmp.props.style.color).b,
     };
   },
 
@@ -77,21 +75,6 @@ var PropertiesInspector = React.createClass({
       canada: province
     });
   },
-  _hexToRgb(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
-},
-  _hexFromRGB(r, g, b) {
-    var hex = '#'
-    hex = hex + ('0'+ Math.round(r || this.state.rValue).toString(16)).slice(-2);
-    hex = hex + ('0'+ Math.round(g || this.state.gValue).toString(16)).slice(-2);
-    hex = hex + ('0'+ Math.round(b || this.state.bValue).toString(16)).slice(-2)
-    return hex;
-  },
   render() {
     var options = [1,2,3,4];
     return (
@@ -107,7 +90,7 @@ var PropertiesInspector = React.createClass({
             optionListRef={this._getOptionList}
             defaultValue="Select an action ..."
             onSelect={this._canada}>
-            {options.map(x => <Option>{x}</Option>)}
+            {options.map((x, i) => <Option key={i}>{(x.toString())}</Option>)}
           </Select>
 
 
@@ -128,11 +111,11 @@ var PropertiesInspector = React.createClass({
           var type = typeForProp[key];
           switch (type) {
             case 'text':
-              return self.addTextValueField(key,value, self.props.cmp);
+              return self.addTextValueField(key,value, self.props.cmp, key);
             case 'color':
-              return self.addColorValueField(key,value, self.props.cmp);
+              return self.addColorValueField(key,value, self.props.cmp, key);
             case 'number':
-              return self.addNumberValueField(key,value, self.props.cmp);
+              return self.addNumberValueField(key,value, self.props.cmp, key);
             default:
               return null;
           }
@@ -143,8 +126,8 @@ var PropertiesInspector = React.createClass({
     );
   },
 
-  addTextValueField(name,defaultValue) {
-    return (<View style={{marginBottom:10}}>
+  addTextValueField(name,defaultValue, cmp, key) {
+    return (<View key={key} style={{marginBottom:10}}>
       <FloatLabelTextInput
         style={styles.textFieldStyle}
         placeHolder={defaultValue}
@@ -154,50 +137,23 @@ var PropertiesInspector = React.createClass({
     </View>)
   },
 
-  addColorValueField(name,defaultValue, component){
-    var colorL = this._hexFromRGB();
-    var _this = this;
-    function updateColor(key) {
-      return _.debounce(function(val) {
-        _this.setState({key: val});
-        let newObj = _.clone(component);
-        if (key === 'rValue') {
-          newObj.props.style[name] = _this._hexFromRGB(val);
-        } else if (key === 'gValue') {
-          newObj.props.style[name] = _this._hexFromRGB(null, val);
-        } else if (key === 'bValue') {
-          newObj.props.style[name] = _this._hexFromRGB(null, null, val);
-        } else {
-          console.error("JUST GO HOME!!!");
-        }
-        _this.props.dispatch(editComponent(component.id, newObj));
-      }, 300);
+  addColorValueField(name, defaultValue, component, key) {
+    var clr = (component.props.style && component.props.style[name]) || '#000000';
+
+    function onChange(val) {
+      let newObj = _.clone(component);
+      newObj.props.style[name] = val;
+      this.props.dispatch(editComponent(component.id, newObj));
     }
 
-    return(
-      <View>
-      <View style={styles.containerForSliders}>
-        <Text style={styles.colorLabelStyle}>Red Value: {Math.round(this.state.rValue)}</Text>
-          <SliderIOS onValueChange={updateColor('rValue')}
-            minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} minimumTrackTintColor='red' value={this.state.rValue} />
-      </View>
-      <View style={styles.containerForSliders}>
-        <Text style={styles.colorLabelStyle}>Green Value: {Math.round(this.state.gValue)}</Text>
-          <SliderIOS onValueChange={updateColor('gValue')}
-              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} minimumTrackTintColor='green' value={this.state.gValue}/>
-      </View><View style={styles.containerForSliders}>
-        <Text style={styles.colorLabelStyle}>Blue Value: {Math.round(this.state.bValue)}</Text>
-          <SliderIOS onValueChange={updateColor('bValue')}
-              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} minimumTrackTintColor='blue' value={this.state.bValue}/>
-      </View>
-        <View style={{height:50, backgroundColor:colorL}}></View>
-      </View>
-    )
+    return (
+      <ColorPicker key={key} color={clr} onChange={onChange.bind(this)} />
+    );
   },
 
-  addNumberValueField(name, defaultValue){
+  addNumberValueField(name, defaultValue, cmp, key){
     return(
-      <View style={styles.numberPickerContainer}>
+      <View key={key} style={styles.numberPickerContainer}>
         <Text style={styles.numberPickerText}>{name}</Text>
         <Spinner styles={styles.numberPickerSegment} max={300}
          min={0}
@@ -229,21 +185,6 @@ const styles = StyleSheet.create({
     height:22,
     fontSize:18,
     marginLeft:10,
-  },
-  colorLabelStyle:{
-    flex:1,
-    marginLeft:20,
-    marginTop:13,
-    flexDirection:'row',
-  },
-  colorSliderStyle:{
-    flexDirection:'row',
-    alignItems:"flex-end",
-    // justifyContent:'flex-end',
-    flex:1.0,
-  },
-  containerForSliders: {
-    flexDirection:'row',
   },
   numberPickerText:{
     marginLeft:20,
