@@ -11,10 +11,10 @@ export function thingus(state, action) {
 }
 
 export function components(state, action) {
-	state = _.clone(state) || [{componentType: "LABEL"}];
+	state = _.clone(state) || [{componentType: "LABEL", id: _.uniqueId('cmp')}];
 	switch(action.type) {
 		case CREATE_COMPONENT:
-			state.push({componentType: action.componentType});
+			state.push({componentType: action.componentType, id: _.uniqueId('cmp')});
 			return state;
 		default:
 			return state;

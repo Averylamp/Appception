@@ -14,6 +14,7 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 import { RadioButtons } from 'react-native-radio-buttons';
+import PropertiesInspector from './PropertiesInspector';
 var Icon = require('react-native-vector-icons/FontAwesome');
 var AddComponent = require('./AddComponent.ios.js');
 
@@ -28,8 +29,11 @@ var CanvasView = React.createClass({
   componentDidMount() {
     this.dropzones = [];
   },
-  handleDropped(droppable) {
-    console.log(droppable.props.children);
+  handleDropped(cmp) {
+    this.props.navigator.push({
+      component: PropertiesInspector,
+      passProps: {cmp}
+    });
   },
   gotoAddView() {
     this.props.navigator.push({
@@ -44,7 +48,7 @@ var CanvasView = React.createClass({
       let Component = ComponentMap[x.componentType];
       if (x.componentType === 'LABEL') {
         return (
-          <Droppable key={i} ref={'cmp_' + i}>
+          <Droppable key={i} ref={'droppable' + x.id}>
             <Component {...x.props} >WHAT UP</Component>
           </Droppable>
         );
@@ -59,12 +63,12 @@ var CanvasView = React.createClass({
   render() {
     let children = this.renderComponents();
 
-
     function findDropZone(gesture) {
       for(var i = 0; i < children.length; i++) {
-        let dropzone = this.refs['cmp_' + i];
+        let cmp = this.props.components[i];
+        let dropzone = this.refs['droppable' + cmp.id];
         if (dropzone.isDropZone(gesture)) {
-          return dropzone;
+          return cmp;
         }
       }
       return false;

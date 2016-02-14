@@ -25,14 +25,10 @@ export default class Droppable extends Component {
           onLayout={this.setDropZoneValues.bind(this)}
           style={styles.dropZone}
         >
-          {this.props.children}
+        {this.props.children}
         </View>
     );
   }
-  getChild() {
-    return this.props.children;
-  }
-
   setDropZoneValues(event) {
     let dropZoneValues = event.nativeEvent.layout;
     this.setState({dropZoneValues});
