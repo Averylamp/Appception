@@ -57,7 +57,6 @@ var PropertiesInspector = React.createClass({
       gValue:this._hexToRgb(this.props.cmp.props.style.color).g,
       bValue:this._hexToRgb(this.props.cmp.props.style.color).b,
     };
-    console.log(this.props);
   },
 
   componentDidMount() {
@@ -86,11 +85,11 @@ var PropertiesInspector = React.createClass({
         b: parseInt(result[3], 16)
     } : null;
 },
-  _hexFromRGB() {
+  _hexFromRGB(r, g, b) {
     var hex = '#'
-    hex = hex + ('0'+ Math.round(this.state.rValue).toString(16)).slice(-2);
-    hex = hex + ('0'+ Math.round(this.state.gValue).toString(16)).slice(-2);
-    hex = hex + ('0'+ Math.round(this.state.bValue).toString(16)).slice(-2)
+    hex = hex + ('0'+ Math.round(r || this.state.rValue).toString(16)).slice(-2);
+    hex = hex + ('0'+ Math.round(g || this.state.gValue).toString(16)).slice(-2);
+    hex = hex + ('0'+ Math.round(b || this.state.bValue).toString(16)).slice(-2)
     return hex;
   },
   render() {
@@ -122,11 +121,9 @@ var PropertiesInspector = React.createClass({
     var styleItems = this.props.cmp.props.style;
     var allProps = _.extend(items, styleItems);
     var self = this;
-    console.log(allProps);
     return (
       <View style={{flex:1}}>
       {_.map(allProps, function(value,key) {
-        console.log(value);
         if (key != 'style') {
           var type = typeForProp[key];
           switch (type) {
@@ -161,12 +158,20 @@ var PropertiesInspector = React.createClass({
     var colorL = this._hexFromRGB();
     var _this = this;
     function updateColor(key) {
-      return function(val) {
+      return _.debounce(function(val) {
         _this.setState({key: val});
         let newObj = _.clone(component);
-        newObj.props.style[name] = _this._hexFromRGB();
+        if (key === 'rValue') {
+          newObj.props.style[name] = _this._hexFromRGB(val);
+        } else if (key === 'gValue') {
+          newObj.props.style[name] = _this._hexFromRGB(null, val);
+        } else if (key === 'bValue') {
+          newObj.props.style[name] = _this._hexFromRGB(null, null, val);
+        } else {
+          console.error("JUST GO HOME!!!");
+        }
         _this.props.dispatch(editComponent(component.id, newObj));
-      }
+      }, 300);
     }
 
     return(
