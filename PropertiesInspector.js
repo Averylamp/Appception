@@ -33,7 +33,6 @@ const {
   updatePosition
 } = DropDown;
 
-let Window = Dimensions.get('window');
 var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
 
 var typeForProp = {
@@ -104,6 +103,8 @@ var PropertiesInspector = React.createClass({
               return self.addColorValueField(key,value, self.props.cmp, key);
             case 'number':
               return self.addNumberValueField(key,value, self.props.cmp, key);
+            case 'callback':
+              return self.addCallbackValueField(key, value, self.props.cmp, key);
             default:
               return null;
           }
@@ -135,9 +136,9 @@ var PropertiesInspector = React.createClass({
     }
 
     return (
-      <View>
+      <View key={key}>
         <Text style={styles.colorTitleStyle}>{name}</Text>
-        <ColorPicker key={key} color={clr} onChange={onChange.bind(this)} />
+        <ColorPicker color={clr} onChange={onChange.bind(this)} />
       </View>
     );
   },
@@ -167,6 +168,10 @@ var PropertiesInspector = React.createClass({
         {options.map(x => <Option>{x}</Option>)}
       </Select>
     </View>)
+  },
+
+  addCallbackValueField(name, defaultValue, options) {
+    
   }
 
 

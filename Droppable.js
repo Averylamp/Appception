@@ -1,7 +1,10 @@
 import React,{
     Component,
-    View
+    View,
+    Dimensions
 } from 'react-native';
+
+let Window = Dimensions.get('window');
 
 
 export default class Droppable extends Component {
