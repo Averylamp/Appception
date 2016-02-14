@@ -3,6 +3,7 @@ import React,{
     View
 } from 'react-native';
 
+
 export default class Droppable extends Component {
   constructor(props){
       super(props);
@@ -16,12 +17,14 @@ export default class Droppable extends Component {
     // TODO: only works heightwise (for now)
     let inHeight = (gesture.moveY > dz.y && gesture.moveY < dz.y + dz.height);
     let inWidth = (gesture.moveX > dz.x && gesture.moveX < dz.x + dz.width);
+    console.log(gesture.moveX, dz.x, dz.width);
+    console.log(inHeight, inWidth);
     return inWidth && inHeight;
   }
   render() {
     return (
         <View
-          onLayout={this.recalculate.bind(this)}
+          onLayout={() => setTimeout(this.recalculate.bind(this), 200)}
           ref="view"
           style={this.props.styles}
         >
@@ -30,9 +33,9 @@ export default class Droppable extends Component {
     );
   }
   recalculate() {
-    this.refs.view.measure((ox, oy, width, height, x, y) =>
+    this.refs.view.measure(function(ox, oy, width, height, x, y) {
       this.setState({dropZoneValues: {x, y, width, height}})
-    );
+    }.bind(this));
   }
 }
 

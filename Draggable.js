@@ -7,7 +7,7 @@ import React,{
     Animated,
     Dimensions
 } from 'react-native';
-const CLICK_THRESHOLD = 10;
+const CLICK_THRESHOLD = 20;
 
 
 export default class Draggable extends Component {
