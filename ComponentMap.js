@@ -4,7 +4,6 @@ import React, {
 } from 'react-native';
 
 import Button from './Button';
-
 export default components = {
 	LABEL: Text,
 	BUTTON: Button,

@@ -14,6 +14,7 @@ import React, {
 
 var AddComponent = require('./AddComponent.ios.js');
 var CanvasView = require('./MessageExample.ios.js');
+var PropertiesInspector = require('./PropertiesInspector.js');
 import Stateful from './state';
 import {testAction} from './actions';
 var SensorsSample = require('./SensorsSample.ios.js');

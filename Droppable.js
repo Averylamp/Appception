@@ -1,6 +1,5 @@
 import React,{
     Component,
-    StyleSheet,
     View
 } from 'react-native';
 
@@ -22,24 +21,19 @@ export default class Droppable extends Component {
   render() {
     return (
         <View
-          onLayout={this.setDropZoneValues.bind(this)}
-          style={styles.dropZone}
+          onLayout={this.recalculate.bind(this)}
+          ref="view"
+          style={this.props.styles}
         >
         {this.props.children}
         </View>
     );
   }
-  setDropZoneValues(event) {
-    let dropZoneValues = event.nativeEvent.layout;
-    this.setState({dropZoneValues});
+  recalculate() {
+    this.refs.view.measure((ox, oy, width, height, x, y) =>
+      this.setState({dropZoneValues: {x, y, width, height}})
+    );
   }
 }
 
 Droppable.propTypes = {children: React.PropTypes.element.isRequired }
-
-let styles = StyleSheet.create({
-    dropZone    : {
-        height         : 100,
-        backgroundColor:'#2c3e50'
-    }
-});
