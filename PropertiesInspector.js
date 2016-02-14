@@ -1,4 +1,3 @@
-'use strict';
 import React, {
   AppRegistry,
   Component,
@@ -14,6 +13,7 @@ import React, {
   ScrollView,
   Dimensions,
 } from 'react-native';
+import _ from 'lodash';
 
 
 import { SegmentedControls } from 'react-native-radio-buttons';
@@ -23,7 +23,7 @@ import AppceptionAdapter from './AppceptionAdapter';
 var FloatLabelTextInput = require('react-native-floating-label-text-input');
 var Spinner = require('rn-spinner');
 import Stateful from './state';
-import {testAction} from './actions';
+import {editComponent} from './actions';
 const DropDown = require('react-native-dropdown');
 const {
   Select,
@@ -34,24 +34,28 @@ const {
 
 let Window = Dimensions.get('window');
 var objects = ['LABEL','BUTTON','MAP', 'LIST','PIN'];
-var CanvasView = require('./CanvasView.ios.js');
 
-var typesForProps = {}
+var typeForProp = {
+  'color': 'color',
+  'backgroundColor': 'color',
+  'text': 'text',
+  'borderColor': 'color',
+  'borderWidth': 'number',
+  'borderRadius': 'number',
+};
 
 var PropertiesInspector = React.createClass({
 
   getInitialState: function() {
-    // console.log(this.props.cmp.props.style.color);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
       dataSource: ds.cloneWithRows(objects),
       vcOptions: ['View 1','View 2'],
       canada: '',
-      //rValue:this._hexToRgb(this.props.cmp.props.style.color).r,
-      //gValue:this._hexToRgb(this.props.cmp.props.style.color).g,
-      //bValue:this._hexToRgb(this.props.cmp.props.style.color).b,
+      rValue:this._hexToRgb(this.props.cmp.props.style.color).r,
+      gValue:this._hexToRgb(this.props.cmp.props.style.color).g,
+      bValue:this._hexToRgb(this.props.cmp.props.style.color).b,
     };
-    console.log(this.props);
   },
 
   componentDidMount() {
@@ -59,7 +63,6 @@ var PropertiesInspector = React.createClass({
    updatePosition(this.refs['OPTIONLIST']);
  },
  _save() {
-  //  this.props.dispatch(actions.editComponent(this.props.cmp.newObj))
   this.props.navigator.pop();
  },
   _getOptionList() {
@@ -81,11 +84,11 @@ var PropertiesInspector = React.createClass({
         b: parseInt(result[3], 16)
     } : null;
 },
-  _hexFromRGB() {
+  _hexFromRGB(r, g, b) {
     var hex = '#'
-    hex = hex + ('0'+ Math.round(this.state.rValue).toString(16)).slice(-2);
-    hex = hex + ('0'+ Math.round(this.state.gValue).toString(16)).slice(-2);
-    hex = hex + ('0'+ Math.round(this.state.bValue).toString(16)).slice(-2)
+    hex = hex + ('0'+ Math.round(r || this.state.rValue).toString(16)).slice(-2);
+    hex = hex + ('0'+ Math.round(g || this.state.gValue).toString(16)).slice(-2);
+    hex = hex + ('0'+ Math.round(b || this.state.bValue).toString(16)).slice(-2)
     return hex;
   },
   render() {
@@ -94,9 +97,8 @@ var PropertiesInspector = React.createClass({
       <ScrollView>
         <View style={{marginTop:15, flex:1}} />
         <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
-
-        {this.renderButton()}
-          <Text > Select your action: {this.state.canada}</Text>
+        {this.renderControl()}
+          <Text>Selected provicne of Canada: {this.state.canada}</Text>
             <OptionList ref="OPTIONLIST"/>
         <Select
             ref="SELECT1"
@@ -105,75 +107,90 @@ var PropertiesInspector = React.createClass({
             onSelect={this._canada}>
             {options.map(x => <Option>{x}</Option>)}
           </Select>
-
-
       </ScrollView>
-
     );
   },
 
-  renderButton() {
-    // for (var key of Object.keys(this.props.cmp.props.style)) {
-    //   console.log("key:" + key + ";value:" + this.props.cmp.props.style[key]);
-    // }
+  renderControl() {
+    var items = this.props.cmp.props;
+    var styleItems = this.props.cmp.props.style;
+    var allProps = _.extend(items, styleItems);
+    var self = this;
     return (
-      <View style={{flex:1,}}>
-        {this.addTextValueField("hello","Button Title")}
-        {this.addColorValueField("Background Color","defaultValue")}
-        {this.addNumberIncrementer("Border Radius",0)}
+      <View style={{flex:1}}>
+      {_.map(allProps, function(value,key) {
+        if (key != 'style') {
+          var type = typeForProp[key];
+          switch (type) {
+            case 'text':
+              return self.addTextValueField(key,value, self.props.cmp);
+            case 'color':
+              return self.addColorValueField(key,value, self.props.cmp);
+            case 'number':
+              return self.addNumberValueField(key,value, self.props.cmp);
+            default:
+              return null;
+          }
+        }
+      })
+    }
       </View>
     );
   },
 
-  renderLabel() {
-    return (
-      <View>
-        {this.addTextValueField("hello","Button Title")}
-
-      </View>
-    );
-  },
-
-  renderMap(){
-
-  },
-
-  addTextValueField(name,defaultValue){
-return (<View style={{}}>
+  addTextValueField(name,defaultValue) {
+    return (<View style={{marginBottom:10}}>
       <FloatLabelTextInput
         style={styles.textFieldStyle}
         placeHolder={defaultValue}
         value={name}
-        noBorder = {true}
+        noBorder
       />
     </View>)
   },
 
-  addColorValueField(name,defaultValue){
+  addColorValueField(name,defaultValue, component){
     var colorL = this._hexFromRGB();
+    var _this = this;
+    function updateColor(key) {
+      return _.debounce(function(val) {
+        _this.setState({key: val});
+        let newObj = _.clone(component);
+        if (key === 'rValue') {
+          newObj.props.style[name] = _this._hexFromRGB(val);
+        } else if (key === 'gValue') {
+          newObj.props.style[name] = _this._hexFromRGB(null, val);
+        } else if (key === 'bValue') {
+          newObj.props.style[name] = _this._hexFromRGB(null, null, val);
+        } else {
+          console.error("JUST GO HOME!!!");
+        }
+        _this.props.dispatch(editComponent(component.id, newObj));
+      }, 300);
+    }
+
     return(
-      <View><Text style={styles.colorTitleStyle}>{name}</Text>
-      <View style={{height:20, backgroundColor:colorL}}></View>
+      <View>
       <View style={styles.containerForSliders}>
         <Text style={styles.colorLabelStyle}>Red Value: {Math.round(this.state.rValue)}</Text>
-          <SliderIOS onValueChange={(rValue) => this.setState({rValue})}
-              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.rValue} minimumTrackTintColor='red' />
+          <SliderIOS onValueChange={updateColor('rValue')}
+            minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} minimumTrackTintColor='red' value={this.state.rValue} />
       </View>
       <View style={styles.containerForSliders}>
         <Text style={styles.colorLabelStyle}>Green Value: {Math.round(this.state.gValue)}</Text>
-          <SliderIOS onValueChange={(gValue) => this.setState({gValue})}
-              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.gValue} minimumTrackTintColor='green'/>
+          <SliderIOS onValueChange={updateColor('gValue')}
+              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} minimumTrackTintColor='green' value={this.state.gValue}/>
       </View><View style={styles.containerForSliders}>
         <Text style={styles.colorLabelStyle}>Blue Value: {Math.round(this.state.bValue)}</Text>
-          <SliderIOS onValueChange={(bValue) => this.setState({bValue})}
-              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} value={this.state.bValue} minimumTrackTintColor='blue' />
+          <SliderIOS onValueChange={updateColor('bValue')}
+              minimumValue={0} maximumValue={255} style={styles.colorSliderStyle} minimumTrackTintColor='blue' value={this.state.bValue}/>
       </View>
-
+        <View style={{height:50, backgroundColor:colorL}}></View>
       </View>
     )
   },
 
-  addNumberIncrementer(name, defaultValue){
+  addNumberValueField(name, defaultValue){
     return(
       <View style={styles.numberPickerContainer}>
         <Text style={styles.numberPickerText}>{name}</Text>
@@ -184,8 +201,20 @@ return (<View style={{}}>
          numColor="#f60"
          onNumChange={(num)=>{console.log(num)}}/>
        </View>
-
     )
+  },
+  addDropDownMenu(name, defaultValue, options){
+    return(<View>
+      <Text > Select your action: {this.state.canada}</Text>
+        <OptionList ref="OPTIONLIST"/>
+      <Select
+        ref="SELECT1"
+        optionListRef={this._getOptionList}
+        defaultValue="Select an action ..."
+        onSelect={this._canada}>
+        {options.map(x => <Option>{x}</Option>)}
+      </Select>
+    </View>)
   }
 
 

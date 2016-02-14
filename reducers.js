@@ -26,6 +26,15 @@ export function components(state, action) {
 	state = _.clone(state) || [{componentType: "LABEL", id: _.uniqueId('cmp'), props: {style: {color: '#114499'}}}];
 	switch(action.type) {
 		case CREATE_COMPONENT:
+			console.log(action)
+			// switch (action.componentType) {
+			// 	case "LABEL":
+			//
+			// 	case "BUTTON":
+			// 		break;
+			// 	default:
+			//
+			// }
 			state.push({componentType: action.componentType, id: _.uniqueId('cmp'), props: action.props || ButtonDefaults});
 			return state;
 		case EDIT_COMPONENT:
