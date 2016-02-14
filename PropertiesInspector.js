@@ -49,15 +49,47 @@ var typeForProp = {
   'value': 'text',
 };
 
+
+
 var PropertiesInspector = React.createClass({
+
+  copyPropertyToObject: function(path, val) {
+    let newObj = _.cloneDeep(this.props.cmp);
+    _.set(newObj, path, _.clone(val));
+    return newObj;
+  },
+
+  getPathsFromObject: function(obj, path) {
+    path = path || [];
+    let result = []
+    _.each(obj, function(v, key) {
+      if (key in typeForProp) {
+        result.push({keys: path.concat(key), type: typeForProp[key]});
+      } else if (_.isObject(v)) {
+        //recur
+        result = result.concat(this.getPathsFromObject(v, path.concat(key)));
+      } //else v is a primitive we have to ignore
+    }.bind(this));
+
+    return result;
+  },
+
+  getValueFromObject(path) {
+    return _.get(this.props.cmp, path);
+  },
+
 
   getInitialState: function() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
       dataSource: ds.cloneWithRows(objects),
       vcOptions: ['View 1','View 2'],
-      canada: '',
     };
+  },
+
+  onChange: function(path, val) {
+    let obj = this.copyPropertyToObject(path, val);
+    this.props.dispatch(editComponent(this.props.cmp.id, obj));
   },
 
   componentDidMount() {
@@ -70,126 +102,103 @@ var PropertiesInspector = React.createClass({
   _getOptionList() {
     return this.refs['OPTIONLIST'];
   },
-
-  _canada(province) {
-
-    this.setState({
-      ...this.state,
-      canada: province
-    });
-  },
   render() {
     var options = [1,2,3,4];
+
     return (
       <ScrollView>
         <View style={{marginTop:15, flex:1}} />
         <TouchableHighlight style={styles.doneButton} onPress={() => this._save()}><Text style={styles.doneText}>Done</Text></TouchableHighlight>
         {this.renderControl()}
-        {this.addDropDownMenu('asdf','nothing',['asdf','aaa','dfs','hgasd','asdf'])}
+        {this.addDropDownMenu('asdf',['asdf','aaa','dfs','hgasd','asdf'])}
       </ScrollView>
     );
   },
 
   renderControl() {
-    var items = this.props.cmp.props;
-    var styleItems = this.props.cmp.props.style;
-    var allProps = _.extend({}, items, styleItems);
+    console.log('rerender!!');
+    var paths = this.getPathsFromObject(this.props.cmp);
     var self = this;
-    return (
-      <View style={{flex:1}}>
-      {_.map(allProps, function(value,key) {
-        if (key != 'style') {
-          var type = typeForProp[key];
-          switch (type) {
+    return <View style={{flex:1}}>
+      {
+        paths.map(function(path) {
+          switch (path.type) {
             case 'text':
-              return self.addTextValueField(key,value, self.props.cmp, key);
+              return self.addTextValueField(path.keys);
             case 'color':
-              return self.addColorValueField(key,value, self.props.cmp, key);
+              return self.addColorValueField(path.keys);
             case 'number':
-              return self.addNumberValueField(key,value, self.props.cmp, key);
+              return self.addNumberValueField(path.keys);
             case 'callback':
-              return self.addCallbackValueField(key, value, self.props.cmp, key);
+              return self.addCallbackValueField(path.keys);
             default:
-              console.log(key + "IS MISSING FROM TypeForProps");
               return null;
           }
-        }
-      })
-    }
-      </View>
-    );
+        })
+      }
+    </View>
   },
 
-  addTextValueField(name,defaultValue, cmp, key) {
-    return (<View key={key} style={{marginBottom:10}}>
+  addTextValueField(path, defaultValue) {
+    let id = _.uniqueId('textfield');
+    return (<View key={_.uniqueId('key')} style={{marginBottom:10}}>
       <FloatLabelTextInput
+        ref={id}
         style={styles.textFieldStyle}
-        placeHolder={defaultValue}
-        value={name}
+        placeHolder={"I AM A placeHolder"}
+        value={this.getValueFromObject(path)}
+        onBlur={function() {
+          this.onChange(path, this.refs[id].state.text);
+        }.bind(this)}
         noBorder
       />
     </View>)
   },
 
-  addColorValueField(name, defaultValue, component, key) {
-    var clr = (component.props.style && component.props.style[name]) || '#000000';
-
-    function onChange(val) {
-      let newObj = _.clone(component);
-      newObj.props.style[name] = val;
-      console.log(newObj);
-      this.props.dispatch(editComponent(component.id, newObj));
-    }
+  addColorValueField(path) {
+    let name = _.last(path);
+    var clr = this.getValueFromObject(path);
 
     return (
-      <View key={key}>
+      <View key={_.uniqueId('key')}>
         <Text style={styles.colorTitleStyle}>{name}</Text>
-        <ColorPicker color={clr} onChange={onChange.bind(this)} />
+        <ColorPicker color={clr} onChange={this.onChange.bind(this, path)} />
       </View>
     );
   },
 
-  addNumberValueField(name, defaultValue, cmp, key){
+  addNumberValueField(path, defaultValue) {
+    let name = _.last(path);
+    let val = this.getValueFromObject(path);
     return(
-      <View key={key} style={styles.numberPickerContainer}>
+      <View key={_.uniqueId('key')} style={styles.numberPickerContainer}>
         <Text style={styles.numberPickerText}>{name}</Text>
         <Spinner styles={styles.numberPickerSegment} max={300}
          min={0}
-         default={defaultValue}
+         default={val}
          color="#f60"
          numColor="#f60"
-         onNumChange={(num)=>{console.log(num)}}/>
+         onNumChange={this.onChange.bind(this, path)}/>
        </View>
     )
   },
-  addDropDownMenu(name, defaultValue, options){
+  addDropDownMenu(path, options) {
+    options = options || [];
+    let val = this.getValueFromObject(path);
     return(<View>
-      <Text > Select your action: {this.state.canada}</Text>
+      <Text > Select your action: }</Text>
         <OptionList ref="OPTIONLIST"/>
       <Select
         ref="SELECT1"
-        optionListRef={this._getOptionList}
-        defaultValue="Select an action ..."
-        onSelect={this._canada}>
+        optionListRef={() => this.refs.OPTIONLIST}
+        defaultValue={val}
+        onSelect={this.onChange.bind(this, path)}>
         {options.map((x,i) => <Option key={i}>{x}</Option>)}
       </Select>
     </View>)
   },
 
   addCallbackValueField(name, defaultValue, options) {
-    return (
-      <View>
-        <Text > Select an action for this event: </Text>
-        <OptionList ref="OPTIONLIST"/>
-        <Select
-          ref="SELECT1"
-          optionListRef={this._getOptionList}
-          defaultValue="Select an action ..."
-          onSelect={this._canada}>
-          {options.map((x,i) => <Option key={i}>{x}</Option>)}
-        </Select>
-      </View>
-    )
   }
 
 
@@ -205,6 +214,7 @@ const styles = StyleSheet.create({
   },
   textFieldStyle: {
     fontSize:20,
+    height: 100,
     borderBottomWidth:0,
     borderColor:'white',
   },
@@ -248,8 +258,8 @@ const styles = StyleSheet.create({
   }
 });
 
-function select(x) {
-  return x;
+function select(x, props) {
+  return {cmp: _.find(x.components, {id: props.id})};
 }
 
 module.exports = connect(select)(PropertiesInspector);

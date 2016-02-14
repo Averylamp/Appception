@@ -22,7 +22,8 @@ export const LabelDefaults = {
 		borderRadius: 10,
 		borderWidth: 0,
 		borderColor: DEFAULT_BG_COLOR
-	}
+	},
+	text: 'What up1!!'
 };
 
 export const ButtonDefaults = {
@@ -30,13 +31,11 @@ export const ButtonDefaults = {
 		onPress: x => VibrationIOS.vibrate(),
 		underlayColor: DEFAULT_FG_COLOR2,
 		style: {
-			backgroundColor: DEFAULT_BG_COLOR,
 			borderRadius: 10,
 			overflow: 'hidden'
 		}
 	},
 	textProps: {
-		backgroundColor: DEFAULT_FG_COLOR2,
 		text: "I'm a button",
 		style: {
 			backgroundColor: DEFAULT_BG_COLOR,

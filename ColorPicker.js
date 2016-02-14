@@ -40,7 +40,7 @@ export default class ColorPicker extends Component {
           <View key={i} style={styles.containerForSliders}>
             <Text style={styles.colorLabelStyle}>{v} Value: {Math.round(rgb[v])}</Text>
             <SliderIOS
-              onValueChange={_.debounce(this.handleSliderChange.bind(this, v), 1)}
+              onSlidingComplete={this.handleSliderChange.bind(this, v)}
               minimumValue={0}
               maximumValue={255}
               style={styles.colorSliderStyle}

@@ -47,7 +47,7 @@ var CanvasView = React.createClass({
     if (cmp) {
       this.props.navigator.push({
         component: PropertiesInspector,
-        passProps: {cmp}
+        passProps: {id: cmp.id}
       });
     }
   },
@@ -75,7 +75,7 @@ var CanvasView = React.createClass({
           <Droppable ref={refName}>
             {
               x.componentType === 'LABEL' ?
-                <Component {...x.props} style={style} >Whats up</Component> :
+                <Component {...x.props} style={style} >{x.props.text}</Component> :
                 <Component {...x.props} style={style} />
             }
           </Droppable>
