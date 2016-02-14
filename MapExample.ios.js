@@ -35,6 +35,7 @@ var MapExample = React.createClass({
   render() {
     return (
         <MapView
+          showsUserLocation
           style={styles.map}
           region={this.state.region}
           onRegionChange={this.onRegionChange}

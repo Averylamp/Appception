@@ -171,7 +171,19 @@ var PropertiesInspector = React.createClass({
   },
 
   addCallbackValueField(name, defaultValue, options) {
-    
+    return (
+      <View>
+        <Text > Select an action for this event: </Text>
+        <OptionList ref="OPTIONLIST"/>
+        <Select
+          ref="SELECT1"
+          optionListRef={this._getOptionList}
+          defaultValue="Select an action ..."
+          onSelect={this._canada}>
+          {options.map((x,i) => <Option key={i}>{x}</Option>)}
+        </Select> 
+      </View>
+    )
   }
 
 

@@ -4,7 +4,6 @@ import React, {
 } from 'react-native';
 
 import MapExample from './MapExample';
-console.log(MapExample);
 import Button from './Button';
 export default components = {
 	LABEL: Text,

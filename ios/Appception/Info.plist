@@ -4,14 +4,10 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Entypo.tff</string>
-		<string>Evillcons.tff</string>
-		<string>FontAwesome.tff</string>
-		<string>Foundation.tff</string>
-		<string>Ionicons.tff</string>
-		<string>MaterialIcons.tff</string>
-		<string>Octicons.tff</string>
-		<string>Zocial.tff</string>
+		<string>FontAwesome.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialIcons.ttf</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
@@ -48,14 +44,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>FontAwesome.ttf</string>
-		<string>Foundation.ttf</string>
-		<string>Ionicons.ttf</string>
-		<string>MaterialIcons.ttf</string>
-	</array>
+	<string>We&apos;d like to use your location.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

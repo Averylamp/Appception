@@ -32,7 +32,7 @@ export const ButtonDefaults = {
 	},
 	textProps: {
 		backgroundColor: DEFAULT_FG_COLOR,
-		text: "I'm a button"
+		text: "I'm a button",
 		style: {
 			backgroundColor: DEFAULT_BG_COLOR,
 		}

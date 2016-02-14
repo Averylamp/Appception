@@ -27,7 +27,11 @@ export function components(state, action) {
 	switch(action.type) {
 		case CREATE_COMPONENT:
 			let newComponent = {componentType: action.componentType, id: _.uniqueId('cmp'), props: action.props || getDefaults(action.componentType)};
-			state.push(newComponent);
+			if (action.componentType === 'MAP') {
+				state.unshift(newComponent)
+			} else {
+				state.push(newComponent);
+			}
 			return state;
 		case EDIT_COMPONENT:
 			var newState = [];
