@@ -10,6 +10,7 @@ const DEFAULT_BG_COLOR2 = '#154160';
 const DEFAULT_FG_COLOR2 = '#d8f0fb';
 
 export const LabelDefaults = {
+  text: 'What up1!!',
 	style: {
 		color: DEFAULT_FG_COLOR,
 		fontSize: 20,
@@ -23,7 +24,6 @@ export const LabelDefaults = {
 		borderWidth: 0,
 		borderColor: DEFAULT_BG_COLOR
 	},
-	text: 'What up1!!'
 };
 
 export const ButtonDefaults = {
@@ -60,6 +60,8 @@ export const MapDefaults = {
 };
 
 export const TextDefaults = {
+  value: 'Your text here',
+  editable: true,
 	style: {
 		fontSize: 20,
 		height: 20,
@@ -70,19 +72,17 @@ export const TextDefaults = {
 		color: '#000000',
 		backgroundColor: '#ff0000',
 	},
-	value: 'Your text here',
-  editable: true,
 };
 
 
 export const ListDefaults = {
+  textProps: {
+		text: "I'm a button"
+	},
 	highlightProps: {
 		onPress: x => VibrationIOS.vibrate(),
 		backgroundColor: DEFAULT_BG_COLOR
 	},
-	textProps: {
-		text: "I'm a button"
-	}
 };
 
 

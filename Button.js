@@ -2,7 +2,7 @@ import React, {
   Component,
   StyleSheet,
   Text,
-  TouchableHighlight,
+  TouchableHighlight
 } from 'react-native';
 
 export default class Button extends Component {
@@ -10,7 +10,7 @@ export default class Button extends Component {
 		let {highlightProps, textProps, ...other} = this.props;
 		return (
 		    <TouchableHighlight  {...highlightProps}>
-		      <Text {...textProps}>{textProps.text}</Text>
+		        <Text {...textProps}>{textProps.text}</Text>
 		    </TouchableHighlight>
 		);
 	}

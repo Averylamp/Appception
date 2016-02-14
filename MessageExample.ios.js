@@ -69,7 +69,8 @@ var MessageExample = React.createClass({
       <View style={{flex:1}}>
       	<View style={styles.buttonContainer}>
 	      <Button
-	      	highlightProps={{onPress: this._onPressButton, style: styles.centralButton}}
+	      	highlightProps={{onPress: this._onPressButton, style: styles.buttonStyle, underlayColor: '#20967C'}}
+	      	containProps={{style: styles.textContainer}}
 	      	textProps={{style: styles.text, text: 'Message a friend!'}}
 	  	  />
 	  	</View>
@@ -85,10 +86,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  buttonStyle: {
+  	borderRadius: 15,
+    backgroundColor: '#6cd5be', 
+    borderColor: '#20967C',
+  },
   text: {
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    backgroundColor: 'black',
+    paddingHorizontal: 30,
+    borderWidth: 1,
+    borderRadius: 15,
+    borderColor: '#20967C',
     overflow: 'hidden', // https://github.com/facebook/react-native/issues/904
     fontSize:35,
     color:'white'
