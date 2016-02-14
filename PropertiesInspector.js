@@ -142,7 +142,10 @@ var PropertiesInspector = React.createClass({
     }
 
     return (
-      <ColorPicker key={key} color={clr} onChange={onChange.bind(this)} />
+      <View>
+        <Text style={styles.colorTitleStyle}>{name}</Text>
+        <ColorPicker key={key} color={clr} onChange={onChange.bind(this)} />
+      </View>
     );
   },
 
