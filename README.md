@@ -1,7 +1,7 @@
 # Appception
 ==============================================
 
-### _A Native App that creates Apps_
+### _A React-Native App that creates Apps_
 ##### Treehacks 2016 - Facebook's Favorite Choice Prize
 [_See Our Devpost_](http://devpost.com/software/appception-2teabd)
 
@@ -30,3 +30,12 @@ Appception communicates with a server application in order to deliver a generate
 Sam Kortchmar, Avery Lamp, Antonio Marino, Beth Yue Shi
 
 
+If you would like to see more things that I (Avery Lamp) has made, check out my:
+
+[_Devpost_](http://devpost.com/averylamp)
+
+[_Website_](http://averylamp.me)
+
+[_Youtube_](https://www.youtube.com/playlist?list=PLyC3kmCiJ2x31ZLjuB7RogEvyamrkSOo9)
+
+If you would like to get in contact with me, here is my [_resume_](http://averylamp.me/Resume.pdf)
